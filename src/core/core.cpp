@@ -2,6 +2,7 @@
 #include <utils\utils.h>
 #include <memory\memory.h>
 #include <render\render.h>
+#include <engine\manager.h>
 #include <scripting\lua_manager.h>
 
 #include <SDL\SDL_messagebox.h>
@@ -12,11 +13,19 @@ void Core::initiliaze()
 {
 	this->render = register_core_module<Render>();
 	this->lua_manager = register_core_module<LuaManager>();
+	this->manager = register_core_module<Manager>();
 }
 
 void Core::start_update_in_render()
 {
 	render->process_update();
+}
+
+void Core::register_std_exception(const std::exception& excp)
+{
+	this->fatal_error(utils::format(
+		"Unhandled exception: %s", excp.what()
+	));
 }
 
 void Core::process_update()

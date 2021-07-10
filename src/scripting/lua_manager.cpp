@@ -4,13 +4,37 @@
 #include <utils\file_io.h>
 #include <utils\utils.h>
 #include <Lua\lua.hpp>
-#include <LuaBridge/LuaBridge.h>
+
+#include <LuaBridge\LuaBridge.h>
+#include <LuaBridge\Vector.h>
 
 using namespace luabridge;
+
+template<typename T>
+inline std::vector<T> get_list_from_lua(LuaRef& ref)
+{
+	std::vector<T> result;
+	uint length = ref.length();
+
+	if (!ref.isTable()) {
+		core->fatal_error("Value is not table");
+		return result;
+	}
+	for (size_t i = 0; i < length; i++) {
+		result.push_back(ref[i + 1].cast<T>());
+	}
+	return result;
+}
+
+LuaScript* LuaManager::get_script(cstr path)
+{
+	return lua_script_by_path[RESOURCE_PATH(path)];
+}
 
 void LuaManager::initiliaze()
 {
 	this->parse_script_folder();
+	this->compile_all_scripts();
 }
 
 void LuaManager::destroy()
@@ -32,57 +56,42 @@ void LuaManager::parse_script_folder()
 		LuaScript* script = mem::alloc<LuaScript>();
 		script->path = p.c_str();
 
-		process_new_script(script);
+		this->process_new_script(script);
+	}
+}
+
+void LuaManager::compile_all_scripts()
+{
+	for (LuaScript* s : lua_scripts) {
+		int o_file_result = luaL_loadfile(
+			s->lua_state, s->path.c_str()
+		);
+
+		int call_result = lua_pcall(s->lua_state, 0, 0, 0);
+
+		if (o_file_result) {
+			core->fatal_error(utils::format(
+				"Lua API error: cannot open file: %s", lua_tostring(s->lua_state, -1)
+			));
+			lua_pop(s->lua_state, 1);
+		}
+		if (call_result) {
+			core->fatal_error(utils::format(
+				"Lua API error: %s", lua_tostring(s->lua_state, -1)
+			));
+			lua_pop(s->lua_state, 1);
+		}
 	}
 }
 
 void LuaManager::process_new_script(LuaScript* script)
 {
 	this->lua_scripts.push_back(script);
+	this->lua_script_by_path.emplace(std::pair<std::string, LuaScript*>(
+		script->path, script)
+	);
+
 	script->lua_state = luaL_newstate();
 
 	luaL_openlibs(script->lua_state);
-	
-	this->register_base_functions(script);
-
-	int o_file_result = luaL_loadfile(
-		script->lua_state, script->path
-	);
-	int call_result = lua_pcall(script->lua_state, 0, 0, 0);
-
-	if (o_file_result) {
-		core->fatal_error(utils::format(
-			"Lua API error: cannot open file: %s", lua_tostring(script->lua_state, -1)
-		));
-		lua_pop(script->lua_state, 1);
-	}
-	if (call_result) {
-		core->fatal_error(utils::format(
-			"Lua API error: %s", lua_tostring(script->lua_state, -1)
-		));
-		lua_pop(script->lua_state, 1);
-	}
-
-	if (strstr(script->path, "_global") != false) {
-		core->print(utils::format("Detected Lua global file, path: %s", script->path));
-		this->process_global_script(script);
-	}
-}
-
-void LuaManager::process_global_script(LuaScript* script)
-{
-	LuaRef singletons_ptr = getGlobal(script->lua_state, "_singleton_scripts");
-	if (singletons_ptr.isNil()) {
-		core->fatal_error("Cannot find list of singleton scripts!");
-		return;
-	}
-	// std::vector<LuaRef> singletons = singletons_ptr.cast<std::vector<LuaRef>>();
-}
-
-void LuaManager::register_base_functions(LuaScript* script)
-{
-	getGlobalNamespace(script->lua_state)
-		// register base functions
-		.addFunction("print",			core->print)
-		.addFunction("fatal_error",		core->fatal_error);
 }

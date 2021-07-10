@@ -1,12 +1,10 @@
+#include "lua_script_data.h"
 #include "lua_manager.h"
+#include "scriptable_object.h"
 
 #include <core\core.h>
 #include <utils\file_io.h>
 #include <utils\utils.h>
-#include <Lua\lua.hpp>
-
-#include <LuaBridge\LuaBridge.h>
-#include <LuaBridge\Vector.h>
 
 using namespace luabridge;
 
@@ -26,9 +24,17 @@ inline std::vector<T> get_list_from_lua(LuaRef& ref)
 	return result;
 }
 
-LuaScript* LuaManager::get_script(cstr path)
+LuaScript* LuaManager::get_script(std::string path)
 {
-	return lua_script_by_path[RESOURCE_PATH(path)];
+	for (LuaScript* s : lua_scripts) {
+		if (s->path == path) {
+			return s;
+		}
+	}
+	core->fatal_error(utils::format(
+		"Cannot find script. Path: %s", path.c_str()
+	));
+	return nullptr;
 }
 
 void LuaManager::initiliaze()
@@ -48,7 +54,7 @@ void LuaManager::destroy()
 void LuaManager::parse_script_folder()
 {
 	std::vector<std::string> all_scripts = utils::io::get_files_in_directory(
-		utils::format(RESOURCE_PATH("scripts"))
+		RESOURCE_PATH("scripts/")
 	);
 	for (const std::string p : all_scripts) {
 		core->print(utils::format("Loaded script: %s", p.c_str()));
@@ -63,6 +69,8 @@ void LuaManager::parse_script_folder()
 void LuaManager::compile_all_scripts()
 {
 	for (LuaScript* s : lua_scripts) {
+		this->register_base_functions(s);
+
 		int o_file_result = luaL_loadfile(
 			s->lua_state, s->path.c_str()
 		);
@@ -87,11 +95,32 @@ void LuaManager::compile_all_scripts()
 void LuaManager::process_new_script(LuaScript* script)
 {
 	this->lua_scripts.push_back(script);
-	this->lua_script_by_path.emplace(std::pair<std::string, LuaScript*>(
-		script->path, script)
-	);
 
 	script->lua_state = luaL_newstate();
 
 	luaL_openlibs(script->lua_state);
+}
+
+extern "C" int get_global_from_lua(lua_State * state)
+{
+	for (LuaScript* s : core->lua_manager->lua_scripts) {
+		if (s->lua_state == state) {
+			cstr arg = lua_tostring(state, 1);
+			if (s->stack.find(arg) != s->stack.end()) {
+				push(state, s->stack[arg]);
+				return 1;
+			} 
+			else {
+				core->fatal_error(utils::format(
+					"Cannot get variable from Lua stack. Name: %s", arg
+				));
+			}
+		}
+	}
+	return 1;
+}
+
+void LuaManager::register_base_functions(LuaScript* script)
+{
+	getGlobalNamespace(script->lua_state).addCFunction("get_extern", get_global_from_lua);
 }

@@ -1,8 +1,10 @@
 #include "manager.h"
 
+Manager::Manager() : IScriptableObject("scripts/manager.lua") {	}
+
 void Manager::initiliaze()
 {
-
+	script->call_method("init");
 }
 
 void Manager::process_update()

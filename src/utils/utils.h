@@ -1,6 +1,10 @@
 #pragma once
 #include <stdio.h>
+
 #include <vector>
+#include <string>
+#include <map>
+
 #include <typeinfo>
 #include <base_types\base_types.h>
 
@@ -10,7 +14,7 @@
 namespace utils
 {
 	template<typename... Args>
-	inline cstr format(const cstr format, Args... args)
+	constexpr cstr format(const cstr format, Args... args)
 	{
 		char buffer[128];
 		sprintf_s(buffer, 128, format, args...);

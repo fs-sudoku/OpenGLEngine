@@ -24,7 +24,7 @@ inline std::vector<T> get_list_from_lua(LuaRef& ref)
 	return result;
 }
 
-LuaScript* LuaManager::get_script(std::string path)
+LuaScript* LuaManager::get_script(cstr path)
 {
 	for (LuaScript* s : lua_scripts) {
 		if (s->path == path) {
@@ -53,10 +53,10 @@ void LuaManager::destroy()
 
 void LuaManager::parse_script_folder()
 {
-	std::vector<std::string> all_scripts = utils::io::get_files_in_directory(
+	std::vector<cstr> all_scripts = utils::io::get_files_in_directory(
 		RESOURCE_PATH("scripts/")
 	);
-	for (const std::string p : all_scripts) {
+	for (const cstr p : all_scripts) {
 		core->print(utils::format("Loaded script: %s", p.c_str()));
 
 		LuaScript* script = mem::alloc<LuaScript>();

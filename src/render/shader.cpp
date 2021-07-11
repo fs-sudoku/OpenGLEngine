@@ -6,8 +6,8 @@
 
 Shader::Shader(const cstr vertex_path, const cstr fragment_path)
 {
-    cstr v_shader_ptr = utils::io::read_file(vertex_path);
-    cstr f_shader_ptr = utils::io::read_file(fragment_path);
+    const char* v_shader_ptr = utils::io::read_file(vertex_path).c_str();
+    const char* f_shader_ptr = utils::io::read_file(fragment_path).c_str();
 
     unsigned int vertex, fragment;
     int success;

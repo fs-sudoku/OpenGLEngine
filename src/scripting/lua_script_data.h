@@ -8,8 +8,8 @@
 
 struct LuaScript
 {
-	std::string path;
-	std::map<std::string, std::string> stack;
+	cstr path;
+	std::map<cstr, cstr> stack;
 
 	struct lua_State* lua_state = nullptr;
 
@@ -19,7 +19,7 @@ struct LuaScript
 		);
 	}
 	void call_method(const cstr name) {
-		luabridge::LuaRef ref = luabridge::getGlobal(lua_state, name);
+		luabridge::LuaRef ref = luabridge::getGlobal(lua_state, name.c_str());
 		if (!ref.isFunction()) {
 			core->fatal_error(utils::format(
 				"Called function is not a function. Name: %s", name

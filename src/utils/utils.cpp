@@ -4,7 +4,7 @@
 
 #include "utils.h"
 
-void utils::print_at_console(const cstr message)
+void utils::print_at_console(const cstr& message)
 {
-	std::puts(message);
+	std::puts(message.c_str());
 }

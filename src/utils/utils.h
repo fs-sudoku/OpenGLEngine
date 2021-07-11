@@ -15,12 +15,13 @@
 namespace utils
 {
 	template<typename... Args>
-	constexpr cstr format(const cstr format, Args... args)
+	constexpr cstr format(const cstr& format, Args... args)
 	{
-		const size_t lenght = 64 + strlen(format);
-		char* buffer = mem::alloc_array<char>(lenght);
-		sprintf_s(buffer, lenght, format, args...);
-		return buffer;
+		int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1;
+		auto size = static_cast<size_t>(size_s);
+		auto buf = std::make_unique<char[]>(size);
+		std::snprintf(buf.get(), size, format.c_str(), args ...);
+		return cstr(buf.get(), buf.get() + size - 1);
 	}
-	extern void print_at_console(const cstr message);
+	extern void print_at_console(const cstr& message);
 }

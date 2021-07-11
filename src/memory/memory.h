@@ -21,10 +21,12 @@ namespace mem
 		return result;
 	}
 	template<typename T>
-	inline T* alloc_array(size_t size = 16)
+	inline T* alloc_array(const size_t& size = 16, bool add_to_stack = true)
 	{
 		T* result = new T[size];
-		allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
+		if (add_to_stack) {
+			allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
+		}
 		return result;
 	}
 	template<typename T>

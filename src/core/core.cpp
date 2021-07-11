@@ -12,6 +12,7 @@ Core::Core(bool is_editor, bool is_debug) : is_debug(is_debug), is_editor(is_edi
 void Core::initiliaze()
 {
 	this->render = register_core_module<Render>();
+
 	this->lua_manager = register_core_module<LuaManager>();
 	this->manager = register_core_module<Manager>();
 }
@@ -64,6 +65,6 @@ void Core::fatal_error(const cstr message)
 {
 	print(utils::format("Fatal error! Message: %s", message));
 	SDL_ShowSimpleMessageBox(
-		SDL_MESSAGEBOX_ERROR, "Fatal error corrupted", message, core->render->window_pattern
+		SDL_MESSAGEBOX_ERROR, "Fatal error corrupted", message.c_str(), nullptr
 	);
 }

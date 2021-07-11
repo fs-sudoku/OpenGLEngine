@@ -26,7 +26,7 @@ void Render::initiliaze()
 	gl_context_pattern = SDL_GL_CreateContext(window_pattern);
 	if (uint gerr = glewInit() != NULL) {
 		core->fatal_error(
-			utils::format("Cannot initiliaze OpenGL. Log: %s", (cstr)glewGetErrorString(gerr))
+			utils::format("Cannot initiliaze OpenGL. Log: %s", glewGetErrorString(gerr))
 		);
 	}
 	this->prepare_opengl();

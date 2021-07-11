@@ -21,6 +21,13 @@ namespace mem
 		return result;
 	}
 	template<typename T>
+	inline T* alloc_array(size_t size = 16)
+	{
+		T* result = new T[size];
+		allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
+		return result;
+	}
+	template<typename T>
 	inline void free(T* target) noexcept
 	{
 		allocated_memory.erase(std::remove(

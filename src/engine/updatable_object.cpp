@@ -10,7 +10,7 @@ IUpdatableObject::IUpdatableObject()
 
 IUpdatableObject::~IUpdatableObject()
 {
-	std::remove(
+	auto iterator = std::remove(
 		core->manager->updatable_objects.begin(),
 		core->manager->updatable_objects.end(),
 		this

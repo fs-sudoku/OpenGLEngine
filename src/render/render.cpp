@@ -61,7 +61,7 @@ void Render::destroy()
 
 void Render::prepare_opengl()
 {
-	glClearColor(0.2, 0.2, 0.2, 0);
+	glClearColor(0.2f, 0.2f, 0.2f, 0.f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);

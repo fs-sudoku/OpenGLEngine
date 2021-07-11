@@ -1,3 +1,3 @@
-# OpenGLEngine [![Build Status](https://travis-ci.com/travis-ci/travis-web.svg?branch=master)](https://travis-ci.com/travis-ci/travis-web)
+# OpenGLEngine [Build status](https://github.com/fs-sudoku/OpenGLEngine/actions/workflows/cmake.yml/badge.svg)
 
 Work in progress

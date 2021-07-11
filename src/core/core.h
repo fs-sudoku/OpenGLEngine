@@ -35,7 +35,7 @@ private:
 private:
 	std::vector<ICoreModule*> core_modules;
 private:
-	template<typename T>
+	template<typename T = ICoreModule>
 	inline T* register_core_module()
 	{
 		T* result = mem::alloc<T>();

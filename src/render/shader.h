@@ -4,11 +4,12 @@
 class Shader
 {
 public:
-    Shader(const cstr vertex_path, const cstr fragment_path);
+    Shader(const cstr& vertex_path, const cstr& fragment_path);
     void use();
-    void set_bool(const cstr name, bool value) const;
-    void set_int(const cstr name, int value) const;
-    void set_float(const cstr name, float value) const;
+    void set_bool(const cstr name, bool value);
+    void set_int(const cstr name, int value);
+    void set_float(const cstr name, float value);
 private:
+    void check_gl_errors(const uint& id);
     uint id = 0;
 };

@@ -1,6 +1,7 @@
 #include <core\core.h>
 #include <render\render.h>	
 #include <utils\utils.h>
+#include <render\shader.h>
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -34,6 +35,10 @@ void Render::initiliaze()
 
 void Render::process_update()
 {
+	Shader shader(
+		RESOURCE_PATH("shaders/standart_vertex.glsl"),
+		RESOURCE_PATH("shaders/standart_fragment.glsl")
+	);
 	while (is_run)
 	{
 		SDL_Event event_pattern;
@@ -42,9 +47,20 @@ void Render::process_update()
 			if (event_pattern.type == SDL_QUIT) {
 				is_run = false;
 			}
+			if (event_pattern.type == SDL_KEYDOWN) {
+				if (event_pattern.key.keysym.scancode == SDLK_ESCAPE) {
+					is_run = false;
+				}
+			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		core->process_update();
+		shader.use();
+		glBegin(GL_POLYGON);
+		glVertex3f(-0.6, -0.75, 0.5);
+		glVertex3f(0.6, -0.75, 0);
+		glVertex3f(0, 0.75, 0);
+		glEnd();
 		glFlush();
 		SDL_GL_SwapWindow(this->window_pattern);
 	}
@@ -61,7 +77,7 @@ void Render::destroy()
 
 void Render::prepare_opengl()
 {
-	glClearColor(0.2f, 0.2f, 0.2f, 0.f);
+	glClearColor(0, 0, 0, 0.f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);

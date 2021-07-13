@@ -16,7 +16,7 @@ void Render::initiliaze()
 		);
 	}
 	int serr = SDL_CreateWindowAndRenderer(
-		size_x, size_y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE, &window_pattern, &render_pattern
+		size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE, &window_pattern, &render_pattern
 	);
 	SDL_SetWindowTitle(this->window_pattern, "Application");
 	if (serr != NULL) {
@@ -47,12 +47,20 @@ void Render::process_update()
 			if (event_pattern.type == SDL_QUIT) {
 				is_run = false;
 			}
+			if (event_pattern.type == SDL_WINDOWEVENT) {
+				if (event_pattern.window.type == SDL_WINDOWEVENT_RESIZED) {
+					this->size = vec2(event_pattern.window.data1, event_pattern.window.data2);
+					this->aspect = size.x / size.y;
+					this->center = size / 2.f;
+				}
+			}
 			if (event_pattern.type == SDL_KEYDOWN) {
 				if (event_pattern.key.keysym.scancode == SDLK_ESCAPE) {
 					is_run = false;
 				}
 			}
 		}
+		glViewport(0, 0, size.x, size.y);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		core->process_update();
 		shader.use();

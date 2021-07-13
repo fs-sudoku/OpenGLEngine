@@ -10,8 +10,9 @@ private:
 	friend class Core;
 private:
 	bool			is_run			= true;
-	uint			size_x			= 1366u;
-	uint			size_y			= 728u;
+	vec2			size			= vec2(1366u, 728u);
+	vec2			center			= size / 2.f;
+	float			aspect			= size.x / size.y;
 	SDL_Window*		window_pattern	= nullptr;
 	SDL_Renderer*	render_pattern	= nullptr;
 protected:

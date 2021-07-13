@@ -10,10 +10,7 @@ Core* core;
 
 int main(int argc, char* argv[])
 {
-	bool is_editor	= static_cast<bool>(IS_EDITOR);
-	bool is_debug	= static_cast<bool>(IS_DEBUG);
-
-	core = mem::alloc<Core>(is_editor, is_debug);
+	core = mem::alloc<Core>();
 
 	core->print(utils::format("Last compile time: %s", LAST_COMPILE_TIME));
 	core->print(utils::format("Executing in %s mode", is_editor ? "editor" : "standart"));

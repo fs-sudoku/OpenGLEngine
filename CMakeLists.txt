@@ -6,14 +6,20 @@ set(IS_DEBUG 1)
 set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
-# find all source files
-file(GLOB_RECURSE SOURCE_FILES 
-	${CMAKE_SOURCE_DIR}/src/*.c
-	${CMAKE_SOURCE_DIR}/src/*.cpp)
-	
-file(GLOB_RECURSE HEADER_FILES 
-	${CMAKE_SOURCE_DIR}/src/*.h
-	${CMAKE_SOURCE_DIR}/src/*.hpp)
+set(SOURCE_FILES
+	"src/main.cpp"
+	"src/core/core.cpp"
+	"src/engine/camera.cpp"
+	"src/engine/manager.cpp"
+	"src/engine/updatable_object.cpp"
+	"src/memory/memory.cpp"
+	"src/render/render.cpp"
+	"src/render/shader.cpp"
+	"src/scripting/lua_manager.cpp"
+	"src/scripting/scriptable_object.cpp"
+	"src/utils/file_io.cpp"
+	"src/utils/utils.cpp"
+)
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)

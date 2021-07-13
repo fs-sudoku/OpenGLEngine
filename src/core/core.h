@@ -8,17 +8,15 @@
 
 extern Core* core;
 
+constexpr bool is_editor	= static_cast<bool>(IS_EDITOR);
+constexpr bool is_debug		= static_cast<bool>(IS_DEBUG);
+
 class Core : ICoreModule
 {
 public:
 	class Render* render			= nullptr;
 	class LuaManager* lua_manager	= nullptr;
 	class Manager* manager			= nullptr;
-
-	bool is_editor					= false;
-	bool is_debug					= false;
-public:
-	Core(bool is_editor, bool is_debug);
 public:
 	static void print(const cstr message);
 	static void fatal_error(const cstr message);
@@ -36,15 +34,14 @@ private:
 	std::vector<ICoreModule*> core_modules;
 private:
 	template<typename T = ICoreModule>
-	inline T* register_core_module()
-	{
-		T* result = mem::alloc<T>();
+	inline T* register_core_module() {
+		static_assert(std::is_base_of<ICoreModule, T>::value, "T is not ICoreModule");
 
+		T* result = mem::alloc<T>();
 		ICoreModule* as_module = dynamic_cast<ICoreModule*>(result);
 
 		this->core_modules.push_back(as_module);
 		as_module->initiliaze();
-
 		return result;
 	}
 };

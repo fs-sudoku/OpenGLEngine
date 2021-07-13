@@ -92,6 +92,7 @@ void LuaManager::compile_all_scripts()
 			));
 			lua_pop(s->lua_state, 1);
 		}
+		s->compile_success();
 	}
 }
 

@@ -21,7 +21,7 @@ namespace mem
 		return result;
 	}
 	template<typename T>
-	inline T* alloc_array(const size_t& size = 16, bool add_to_stack = true)
+	inline T* alloc_array(const size_t& size = 16u, bool add_to_stack = true)
 	{
 		T* result = new T[size];
 		if (add_to_stack) {

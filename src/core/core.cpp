@@ -7,8 +7,6 @@
 
 #include <SDL\SDL_messagebox.h>
 
-Core::Core(bool is_editor, bool is_debug) : is_debug(is_debug), is_editor(is_editor) { }
-
 void Core::initiliaze()
 {
 	this->render = register_core_module<Render>();
@@ -40,8 +38,8 @@ void Core::process_update()
 
 void Core::destroy()
 {	
-	this->print("Destroying Main Core...");
-	for (ICoreModule* m : this->core_modules) {
+	std::reverse(core_modules.begin(), core_modules.end());
+	for (ICoreModule* m : core_modules) {
 		m->destroy();
 		mem::free(m);
 	}

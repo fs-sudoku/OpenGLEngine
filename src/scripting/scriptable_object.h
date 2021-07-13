@@ -4,7 +4,7 @@
 
 class IScriptableObject
 {
-protected:
+public:
 	IScriptableObject(cstr script_name);
 protected:
 	friend class LuaManager;

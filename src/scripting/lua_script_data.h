@@ -9,16 +9,18 @@
 struct LuaScript
 {
 	cstr path;
-	std::map<cstr, cstr> stack;
+	std::map<cstr, luabridge::LuaRef*> stack;
 
 	struct lua_State* lua_state = nullptr;
 
-	void push_to_stack(const cstr name, const cstr extern_var) {
+	template<typename T>
+	void push_to_stack(const cstr& name, const T& extern_var) {
+		luabridge::LuaRef* ref = mem::alloc<luabridge::LuaRef>(lua_state, extern_var);
 		stack.insert(
-			{ name, extern_var }
+			{ name, ref }
 		);
 	}
-	void call_method(const cstr name) {
+	void call_method(const cstr& name) {
 		luabridge::LuaRef ref = luabridge::getGlobal(lua_state, name.c_str());
 		if (!ref.isFunction()) {
 			core->fatal_error(utils::format(

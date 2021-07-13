@@ -47,6 +47,9 @@ void LuaManager::destroy()
 {
 	for (LuaScript* s : this->lua_scripts) {
 		lua_close(s->lua_state);
+		for (std::pair p : s->stack) {
+			mem::free(p.second);
+		}
 		mem::free(s);
 	}
 }

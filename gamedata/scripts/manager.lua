@@ -1,5 +1,5 @@
 -- manager.lua
 
-function init()
-	print("Hello world")
+init = function()
+	
 end

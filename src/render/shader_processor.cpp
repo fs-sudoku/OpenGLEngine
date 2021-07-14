@@ -1,7 +1,9 @@
 #include <render\shader_processor.h>
 
 ShaderProcessor::ShaderProcessor() : IScriptableObject("scripts/shader_processor.lua")
-{ }
+{ 
+	script->call_init();
+}
 
 cstr ShaderProcessor::get_completed_shader(const cstr& code, bool vertex)
 {

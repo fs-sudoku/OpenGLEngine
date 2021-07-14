@@ -126,5 +126,10 @@ extern "C" int get_global_from_lua(lua_State * state)
 
 void LuaManager::register_base_functions(LuaScript* script)
 {
-	getGlobalNamespace(script->lua_state).addCFunction("get_extern", get_global_from_lua);
+	getGlobalNamespace(script->lua_state)
+		.beginNamespace("utils")
+			.addCFunction("get_extern",				::get_global_from_lua)
+		.beginNamespace("io")
+			.addFunction("read_file",				utils::io::read_file)
+			.addFunction("get_files_in_directory",	utils::io::get_files_in_directory);
 }

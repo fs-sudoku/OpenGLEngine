@@ -5,7 +5,7 @@
 #include <fstream>
 #include <filesystem>
 
-cstr utils::io::read_file(const cstr path)
+cstr utils::io::read_file(const cstr& path)
 {
 	std::ifstream file(path);
 
@@ -16,7 +16,7 @@ cstr utils::io::read_file(const cstr path)
 	return cstr(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 }
 
-std::vector<cstr> utils::io::get_files_in_directory(const cstr dir)
+std::vector<cstr> utils::io::get_files_in_directory(const cstr& dir)
 {
 	namespace fs = std::filesystem;
 	fs::recursive_directory_iterator b(dir), e;

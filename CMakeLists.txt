@@ -59,15 +59,3 @@ target_link_libraries(${PROJECT_NAME} ${LIBS_NAMES})
 if (MSVC)
 	file(COPY ${DLL_FILES} DESTINATION ${PROJECT_BINARY_DIR}/bin)
 endif()
-
-# macro copy gamedata directory
-macro(copy_directory _proj _src _dst)
-add_custom_command(TARGET ${_proj} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${_src}
-        ${_dst}
-	)
-endmacro()
-
-# copy gamedata directory
-copy_directory(Application ${CMAKE_SOURCE_DIR}/gamedata ${PROJECT_BINARY_DIR}/gamedata)

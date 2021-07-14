@@ -7,19 +7,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 set(SOURCE_FILES
-	"src/main.cpp"
-	"src/core/core.cpp"
-	"src/engine/camera.cpp"
-	"src/engine/manager.cpp"
-	"src/engine/updatable_object.cpp"
-	"src/memory/memory.cpp"
-	"src/render/render.cpp"
-	"src/render/shader.cpp"
-	"src/scripting/lua_manager.cpp"
-	"src/scripting/scriptable_object.cpp"
-	"src/utils/file_io.cpp"
-	"src/utils/utils.cpp"
-)
+"src/main.cpp"
+"src/core/core.cpp"
+"src/engine/camera.cpp"
+"src/engine/manager.cpp"
+"src/engine/updatable_object.cpp"
+"src/memory/memory.cpp"
+"src/render/render.cpp"
+"src/render/shader.cpp"
+"src/scripting/lua_manager.cpp"
+"src/scripting/scriptable_object.cpp"
+"src/utils/file_io.cpp"
+"src/utils/utils.cpp"
+"src/render/shader_processor.h" 
+"src/render/shader_processor.cpp")
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)

@@ -37,14 +37,15 @@ public:
 			{ name, ref }
 		);
 	}
-	void call_method(const cstr& name) {
+	template<typename T, typename... Args>
+	T call_method(const cstr& name, Args&&... args) {
 		luabridge::LuaRef func = this->get_func(name);
 		if (!func.isFunction()) {
 			core->fatal_error(utils::format(
 				"Function is not a function. Name: %s", name
 			));
 		}
-		func();
+		return func(std::forward<Args>(args)...).cast<T>();
 	}
 public:
 	void call_init() {

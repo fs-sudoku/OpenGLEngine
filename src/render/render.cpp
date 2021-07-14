@@ -2,6 +2,7 @@
 #include <render\render.h>	
 #include <utils\utils.h>
 #include <render\shader.h>
+#include <render\shader_processor.h>
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -25,11 +26,13 @@ void Render::initiliaze()
 		);
 	}
 	gl_context_pattern = SDL_GL_CreateContext(window_pattern);
+	glewExperimental = GL_TRUE;
 	if (uint gerr = glewInit() != NULL) {
 		core->fatal_error(
 			utils::format("Cannot initiliaze OpenGL. Log: %s", glewGetErrorString(gerr))
 		);
 	}
+	this->shader_proc = mem::alloc<ShaderProcessor>();
 	this->prepare_opengl();
 }
 
@@ -76,6 +79,8 @@ void Render::process_update()
 
 void Render::destroy()
 {
+	mem::free(shader_proc);
+
 	SDL_DestroyWindow(this->window_pattern);
 	SDL_DestroyRenderer(this->render_pattern);
 	SDL_GL_DeleteContext(::gl_context_pattern);
@@ -85,6 +90,7 @@ void Render::destroy()
 
 void Render::prepare_opengl()
 {
+
 	glClearColor(0, 0, 0, 0.f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);

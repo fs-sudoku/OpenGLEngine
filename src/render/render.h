@@ -6,6 +6,8 @@ struct	SDL_Renderer;
 
 class Render : ICoreModule
 {
+public:
+	class ShaderProcessor* shader_proc = nullptr;
 private:
 	friend class Core;
 private:

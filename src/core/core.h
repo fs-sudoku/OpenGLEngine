@@ -6,6 +6,8 @@
 
 #include <main.h>
 
+#include <thread>
+
 extern Core* core;
 
 constexpr bool is_editor	= static_cast<bool>(IS_EDITOR);
@@ -32,6 +34,7 @@ private:
 	void register_std_exception(const std::exception& excp);
 private:
 	std::vector<ICoreModule*> core_modules;
+	std::thread start_up_thread;
 private:
 	template<typename T = ICoreModule>
 	inline T* register_core_module() {

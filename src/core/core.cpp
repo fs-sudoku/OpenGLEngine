@@ -9,10 +9,15 @@
 
 void Core::initiliaze()
 {
-	this->render = register_core_module<Render>();
-
-	this->lua_manager = register_core_module<LuaManager>();
-	this->manager = register_core_module<Manager>();
+	/*
+	this->start_up_thread = std::thread([](){
+		
+	});
+	start_up_thread.join();
+	*/
+	this->lua_manager	= register_core_module<LuaManager>();
+	this->render		= register_core_module<Render>();
+	this->manager		= register_core_module<Manager>();
 }
 
 void Core::start_update_in_render()

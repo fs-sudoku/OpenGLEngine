@@ -1,5 +1,7 @@
 #include "shader.h"
 
+#include <render\render.h>
+#include <render\shader_processor.h>
 #include <core\core.h>
 #include <utils\file_io.h>
 #include <GL\glew.h>
@@ -18,8 +20,12 @@ void Shader::check_gl_errors(const uint& id)
 
 Shader::Shader(const cstr& vertex_path, const cstr& fragment_path)
 {
-    cstr v_shader_ptr = utils::io::read_file(vertex_path);
-    cstr f_shader_ptr = utils::io::read_file(fragment_path);
+    cstr v_shader_ptr = core->render->shader_proc->get_completed_shader(
+            utils::io::read_file(vertex_path),      true
+    );
+    cstr f_shader_ptr = core->render->shader_proc->get_completed_shader(
+            utils::io::read_file(fragment_path),    false
+    );
 
     const char* vShaderCode = v_shader_ptr.c_str();
     const char* fShaderCode = f_shader_ptr.c_str();

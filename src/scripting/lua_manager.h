@@ -9,9 +9,9 @@
 class LuaManager : ICoreModule
 {
 public:
-	std::vector<struct LuaScript*> lua_scripts;
+	std::vector<class LuaScript*> lua_scripts;
 public:
-	struct LuaScript* get_script(cstr path);
+	class LuaScript* get_script(cstr path);
 protected:
 	friend class Core;
 	void initiliaze() override;

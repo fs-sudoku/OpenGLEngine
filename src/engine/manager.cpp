@@ -1,9 +1,14 @@
 #include "manager.h"
 
+#include <render\render.h>
+#include <engine\camera.h>
+
 Manager::Manager() : IScriptableObject("scripts/manager.lua") {	}
 
 void Manager::initiliaze()
 {
+	core->render->set_camera(mem::alloc<Camera>());
+	core->render->get_camera()->transform.position = vec3(0, 0, -7);
 	script->call_init();
 }
 

@@ -44,7 +44,6 @@ private:
 		ICoreModule* as_module = dynamic_cast<ICoreModule*>(result);
 
 		this->core_modules.push_back(as_module);
-		as_module->initiliaze();
 		return result;
 	}
 };

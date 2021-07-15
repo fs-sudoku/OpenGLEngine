@@ -6,8 +6,9 @@ namespace mem
 {
 	struct MemoryData
 	{
-		cstr type_name;
-		void* adress;
+		cstr	type_name;
+		void*	adress;
+
 		bool operator==(void* adress) {
 			return this->adress == adress;
 		}

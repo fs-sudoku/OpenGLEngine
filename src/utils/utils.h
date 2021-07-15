@@ -12,6 +12,9 @@
 #define RESOURCE_PATH(PATH) utils::format("%s%s", "../gamedata/", PATH)
 #define NAMEOF(VAR)			#VAR
 
+#define REGISTER_PROPERTY(TYPE, NAME)	TYPE  get_##NAME()				{ return NAME;  } \
+										void  set_##NAME(TYPE value)	{ NAME = value; }
+
 namespace utils
 {
 	template<typename... Args>

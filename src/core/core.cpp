@@ -15,9 +15,17 @@ void Core::initiliaze()
 	});
 	start_up_thread.join();
 	*/
-	this->lua_manager	= register_core_module<LuaManager>();
+	this->lua_manager = register_core_module<LuaManager>();
+	this->lua_manager->initiliaze();
+
 	this->render		= register_core_module<Render>();
 	this->manager		= register_core_module<Manager>();
+
+	for (auto* m : core_modules) {
+		if (m != lua_manager) {
+			m->initiliaze();
+		}
+	}
 }
 
 void Core::start_update_in_render()
@@ -34,7 +42,7 @@ void Core::register_std_exception(const std::exception& excp)
 
 void Core::process_update()
 {
-	for (ICoreModule* m : this->core_modules) {
+	for (auto* m : this->core_modules) {
 		if (m != render) {
 			m->process_update();
 		}
@@ -44,12 +52,12 @@ void Core::process_update()
 void Core::destroy()
 {	
 	std::reverse(core_modules.begin(), core_modules.end());
-	for (ICoreModule* m : core_modules) {
+	for (auto* m : core_modules) {
 		m->destroy();
 		mem::free(m);
 	}
 	if (!mem::allocated_memory.empty()) {
-		for (mem::MemoryData p : mem::allocated_memory) {
+		for (auto p : mem::allocated_memory) {
 			if (p.adress != this) {
 				this->fatal_error(
 					utils::format("Memory is not deleted! Adress: %p, Typename: %s", p.adress, p.type_name)

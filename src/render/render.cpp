@@ -3,9 +3,11 @@
 #include <utils\utils.h>
 #include <render\shader.h>
 #include <render\shader_processor.h>
+#include <engine\camera.h>
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
+#include <GLM\ext\matrix_transform.hpp>
 
 static SDL_GLContext	gl_context_pattern;
 
@@ -32,7 +34,7 @@ void Render::initiliaze()
 			utils::format("Cannot initiliaze OpenGL. Log: %s", glewGetErrorString(gerr))
 		);
 	}
-	this->shader_proc = mem::alloc<ShaderProcessor>();
+	this->shader_proc	= mem::alloc<ShaderProcessor>();
 	this->prepare_opengl();
 }
 
@@ -60,17 +62,16 @@ void Render::process_update()
 				}
 			}
 		}
-		glViewport(0, 0, size.x, size.y);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		core->process_update();
-		shader.use();
-		glBegin(GL_POLYGON);
-		glVertex3f(-0.6, -0.75, 0.5);
-		glVertex3f(0.6, -0.75, 0);
-		glVertex3f(0, 0.75, 0);
-		glEnd();
-		glFlush();
-		SDL_GL_SwapWindow(this->window_pattern);
+		this->begin_render();
+		{
+			shader.use();
+			glBegin(GL_POLYGON);
+			glVertex3f(-0.6, -0.75, 0.5);
+			glVertex3f(0.6, -0.75, 0);
+			glVertex3f(0, 0.75, 0);
+			glEnd();
+		}
+		this->flush_render();
 	}
 }
 
@@ -85,9 +86,33 @@ void Render::destroy()
 	SDL_Quit();
 }
 
+void Render::for_each_shaders()
+{
+	for (auto* s : this->shader_proc->shaders) {
+		s->set_mat4("MODEL",		world_matrix.model);
+		s->set_mat4("VIEW",			world_matrix.view);
+		s->set_mat4("PROJECTION",	world_matrix.projection);
+	}
+}
+
+void Render::begin_render()
+{
+	glViewport(0, 0, size.x, size.y);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	world_matrix.create_matrix(&camera->transform, aspect, camera->get_fov());
+	this->for_each_shaders();
+	core->process_update();
+}
+
+void Render::flush_render()
+{
+	glFlush();
+	SDL_GL_SwapWindow(this->window_pattern);
+}
+
 void Render::prepare_opengl()
 {
-
 	glClearColor(0, 0, 0, 0.f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);

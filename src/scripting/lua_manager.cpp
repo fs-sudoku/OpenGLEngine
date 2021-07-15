@@ -138,6 +138,5 @@ void LuaManager::register_base_functions(LuaScript* script)
 			})
 		.endNamespace()
 			.addFunction("fatal_error", core->fatal_error)
-			.addFunction("print", core->print)
-	.endNamespace();
+			.addFunction("print", core->print);
 }

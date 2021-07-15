@@ -4,3 +4,8 @@ Camera::Camera() : IScriptableObject("scripts/camera.lua")
 {
 
 }
+
+void Camera::update()
+{
+
+}

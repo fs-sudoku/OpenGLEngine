@@ -4,7 +4,7 @@
 class Shader
 {
 public:
-    Shader(const cstr& vertex_path, const cstr& fragment_path);
+    Shader(const cstr& path);
     void use();
     void set_bool(const cstr name, bool value);
     void set_int(const cstr name, int value);

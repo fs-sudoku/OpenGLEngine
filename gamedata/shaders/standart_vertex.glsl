@@ -1,7 +1,13 @@
 #version 410
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec3 SELF_POSITION;
+
+#pragma CUSTOM_UNIFORMS
+
+// consts
+vec4 POSITION;
 
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    #pragma CUSTOM_VERTEX_CODE
+    gl_Position = POSITION;
 }

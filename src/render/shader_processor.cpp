@@ -5,7 +5,9 @@ ShaderProcessor::ShaderProcessor() : IScriptableObject("scripts/shader_processor
 	script->call_init();
 }
 
-cstr ShaderProcessor::get_completed_shader(const cstr& code, bool vertex)
+std::tuple<cstr, cstr> ShaderProcessor::get_completed_shader(const cstr& path)
 {
-	return script->call_method<cstr>("process_shader", code, vertex);
+	auto result = script->call_method<luabridge::LuaRef>("process_shader", path);
+	cstr first = result[1], second = result[2];
+	return std::tuple<cstr, cstr>(first, second);
 }

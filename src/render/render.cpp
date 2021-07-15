@@ -38,10 +38,7 @@ void Render::initiliaze()
 
 void Render::process_update()
 {
-	Shader shader(
-		RESOURCE_PATH("shaders/standart_vertex.glsl"),
-		RESOURCE_PATH("shaders/standart_fragment.glsl")
-	);
+	Shader shader(RESOURCE_PATH("shaders/basic/basic.glsl"));
 	while (is_run)
 	{
 		SDL_Event event_pattern;

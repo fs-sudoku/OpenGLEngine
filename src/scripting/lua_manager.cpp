@@ -126,10 +126,18 @@ extern "C" int get_global_from_lua(lua_State * state)
 
 void LuaManager::register_base_functions(LuaScript* script)
 {
+	const char* src_path = "../gamedata/";
 	getGlobalNamespace(script->lua_state)
 		.beginNamespace("utils")
-			.addCFunction("get_extern",				::get_global_from_lua)
-		.beginNamespace("io")
-			.addFunction("read_file",				utils::io::read_file)
-			.addFunction("get_files_in_directory",	utils::io::get_files_in_directory);
+			.addCFunction("get_extern", ::get_global_from_lua)
+			.addFunction("read_file", utils::io::read_file)
+			.addFunction("get_files_in_directory", utils::io::get_files_in_directory)
+			.addProperty("src_dir", [](lua_State* s) -> int {
+					lua_pushstring(s, "../gamedata/");
+					return 1;
+			})
+		.endNamespace()
+			.addFunction("fatal_error", core->fatal_error)
+			.addFunction("print", core->print)
+	.endNamespace();
 }

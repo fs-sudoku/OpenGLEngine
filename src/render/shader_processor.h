@@ -5,5 +5,5 @@ class ShaderProcessor : IScriptableObject
 {
 public:
 	ShaderProcessor();
-	cstr get_completed_shader(const cstr& code, bool vertex);
+	std::tuple<cstr, cstr> get_completed_shader(const cstr& path);
 };

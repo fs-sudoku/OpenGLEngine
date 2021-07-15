@@ -18,14 +18,11 @@ void Shader::check_gl_errors(const uint& id)
     };
 }
 
-Shader::Shader(const cstr& vertex_path, const cstr& fragment_path)
+Shader::Shader(const cstr& path)
 {
-    cstr v_shader_ptr = core->render->shader_proc->get_completed_shader(
-            utils::io::read_file(vertex_path),      true
-    );
-    cstr f_shader_ptr = core->render->shader_proc->get_completed_shader(
-            utils::io::read_file(fragment_path),    false
-    );
+    auto tuple = core->render->shader_proc->get_completed_shader(path);
+    cstr v_shader_ptr = std::get<0u>(tuple);
+    cstr f_shader_ptr = std::get<1u>(tuple);
 
     const char* vShaderCode = v_shader_ptr.c_str();
     const char* fShaderCode = f_shader_ptr.c_str();

@@ -62,6 +62,7 @@ void Render::process_update()
 				}
 			}
 		}
+		this->pre_logic();
 		this->begin_render();
 		{
 			shader.use();
@@ -89,10 +90,13 @@ void Render::destroy()
 void Render::for_each_shaders()
 {
 	for (auto* s : this->shader_proc->shaders) {
-		s->set_mat4("MODEL",		world_matrix.model);
-		s->set_mat4("VIEW",			world_matrix.view);
-		s->set_mat4("PROJECTION",	world_matrix.projection);
+		s->set_base_uniforms(&world_matrix, ticks);
 	}
+}
+
+void Render::pre_logic()
+{
+	this->ticks = SDL_GetTicks();
 }
 
 void Render::begin_render()

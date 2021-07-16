@@ -19,19 +19,19 @@ private:
 	luabridge::LuaRef update_method		= nullptr;
 	luabridge::LuaRef destroy_method	= nullptr;
 
-	void compile_success() {
+	void compile_success() noexcept {
 		this->init_method		= get_func("init");
 		this->update_method		= get_func("update");
 		this->destroy_method	= get_func("destroy");
 	}
 
-	luabridge::LuaRef get_func(const cstr& name) {
+	luabridge::LuaRef get_func(const cstr& name) const noexcept {
 		luabridge::LuaRef func = luabridge::getGlobal(lua_state, name.c_str());
 		return func;
 	}
 public:
 	template<typename T>
-	void push_to_stack(const cstr& name, const T& extern_var) {
+	void push_to_stack(const cstr& name, const T& extern_var) const {
 		luabridge::LuaRef* ref = mem::alloc<luabridge::LuaRef>(lua_state, extern_var);
 		stack.insert(
 			{ name, ref }

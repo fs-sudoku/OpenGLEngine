@@ -3,7 +3,7 @@
 ---@type string
 local standard_frag, standard_vertex
 
-local pragma_signature		 = "#pragma" 
+local pragma_signature		 	= "#pragma" 
 
 local custom_frag_code_str	 	= pragma_signature.." ".."CUSTOM_FRAGMENT_CODE"
 local custom_vertex_code_str 	= pragma_signature.." ".."CUSTOM_VERTEX_CODE"
@@ -26,6 +26,16 @@ function init()
 	if not standard_vertex:find(custom_uniforms_code_str) then
 		fatal_error("Cannot find "..custom_uniforms_code_str.." in shader!")
 	end
+end
+
+---@param id integer
+function get_base_locations(id)
+	local model_loc 		= render.get_uniform_location(id, "MODEL")
+	local view_loc 			= render.get_uniform_location(id, "VIEW")
+	local projection_loc 	= render.get_uniform_location(id, "PROJECTION")
+	local time_loc 			= render.get_uniform_location(id, "TIME")
+
+	return { model_loc, view_loc, projection_loc, time_loc }
 end
 
 ---@param path string

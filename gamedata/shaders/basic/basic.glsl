@@ -1,7 +1,7 @@
 uniform float time;
 
 void vertex() {
-    POSITION = vec4(SELF_POSITION, 1.0);
+    POSITION = PROJECTION * VIEW * MODEL * vec4(SELF_POSITION, 1.0);
 }
 
 void fragment() {

@@ -72,7 +72,7 @@ void LuaManager::parse_script_folder()
 void LuaManager::compile_all_scripts()
 {
 	for (LuaScript* s : lua_scripts) {
-		this->register_base_functions(s);
+		::register_base_functions(s);
 
 		int o_file_result = luaL_loadfile(
 			s->lua_state, s->path.c_str()
@@ -103,40 +103,4 @@ void LuaManager::process_new_script(LuaScript* script)
 	script->lua_state = luaL_newstate();
 
 	luaL_openlibs(script->lua_state);
-}
-
-extern "C" int get_global_from_lua(lua_State * state)
-{
-	for (LuaScript* s : core->lua_manager->lua_scripts) {
-		if (s->lua_state == state) {
-			cstr arg = lua_tostring(state, 1);
-			if (s->stack.find(arg) != s->stack.end()) {
-				push(state, s->stack[arg]);
-				return 1;
-			} 
-			else {
-				core->fatal_error(utils::format(
-					"Cannot get variable from Lua stack. Name: %s", arg
-				));
-			}
-		}
-	}
-	return 1;
-}
-
-void LuaManager::register_base_functions(LuaScript* script)
-{
-	const char* src_path = "../gamedata/";
-	getGlobalNamespace(script->lua_state)
-		.beginNamespace("utils")
-			.addCFunction("get_extern", ::get_global_from_lua)
-			.addFunction("read_file", utils::io::read_file)
-			.addFunction("get_files_in_directory", utils::io::get_files_in_directory)
-			.addProperty("src_dir", [](lua_State* s) -> int {
-					lua_pushstring(s, "../gamedata/");
-					return 1;
-			})
-		.endNamespace()
-			.addFunction("fatal_error", core->fatal_error)
-			.addFunction("print", core->print);
 }

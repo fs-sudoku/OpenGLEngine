@@ -5,6 +5,7 @@
     "Lua.diagnostics.globals": [
         "read_file",
         "utils",
-        "fatal_error"
+        "fatal_error",
+        "render"
     ]
 }

@@ -6,6 +6,8 @@
 #include <utils\utils.h>
 #include <core\core_module.h>
 
+extern void register_base_functions(class LuaScript* script);
+
 class LuaManager : ICoreModule
 {
 public:
@@ -20,5 +22,4 @@ private:
 	void parse_script_folder();
 	void compile_all_scripts();
 	void process_new_script(LuaScript* script);
-	void register_base_functions(LuaScript* script);
 };

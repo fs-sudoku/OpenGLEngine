@@ -4,5 +4,5 @@
 class IObject
 {
 protected:
-	virtual cstr get_name() { return "base_object"; }
+	virtual cstr get_name() const { return "base_object"; }
 };

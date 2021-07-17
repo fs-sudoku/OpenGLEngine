@@ -28,7 +28,7 @@ private:
 	const WorldMatrix world_matrix	= {};
 protected:
 	void initiliaze() override;
-	void process_update() override;
+	void process_update() noexcept override;
 	void destroy() override;
 private:
 	void for_each_shaders();

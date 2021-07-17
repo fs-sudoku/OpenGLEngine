@@ -2,6 +2,8 @@
 #include <base_types\object.h>
 #include <memory\memory.h>
 
+#include <utils\utils.h>
+
 class ICoreModule : IObject
 {
 protected:	

@@ -2,6 +2,7 @@
 
 project(Application)
 
+set(EXE_PARAMS)
 set(IS_DEBUG 1)
 set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
@@ -20,7 +21,12 @@ set(SOURCE_FILES
 "src/utils/file_io.cpp"
 "src/utils/utils.cpp"
 "src/render/shader_processor.h" 
-"src/render/shader_processor.cpp" "src/render/world_matrix.h" "src/math/transform.h" "src/render/world_matrix.cpp" "src/engine/game_object.h" "src/scripting/lua_registration.cpp")
+"src/render/shader_processor.cpp" 
+"src/render/world_matrix.h" 
+"src/math/transform.h" 
+"src/render/world_matrix.cpp" 
+"src/engine/game_object.h" 
+"src/scripting/lua_registration.cpp"   "src/engine/resource_manager.h")
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)
@@ -29,7 +35,16 @@ file(GLOB_RECURSE DLL_FILES
 set(INCLUDE_PATH ${CMAKE_SOURCE_DIR}/include)
 set(LIBS_PATH ${CMAKE_SOURCE_DIR}/lib)
 
-set(LIBS_NAMES SDL/SDL2 GL/glew32 GL/glut32 Lua/lua54 opengl32 glu32)
+set(LIBS_NAMES 
+SDL/SDL2 GL/glew32 GL/glut32 
+Lua/lua54 Assimp/assimp-vc142-mtd
+opengl32 glu32)
+
+# if windows => compile with flag win32
+
+if (WIN32 AND NOT ${IS_DEBUG})
+	list(APPEND EXE_PARAMS WIN32)	
+endif()
 
 # set paths
 include_directories(${INCLUDE_PATH} ${CMAKE_SOURCE_DIR}/src)
@@ -38,7 +53,7 @@ link_directories(${LIBS_PATH} ${LIBS_PATH}/SDL)
 string(TIMESTAMP TODAY "\"Date: %Y.%m.%d Time: %H.%M.%S\"")
 
 # add game executable
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${EXE_PARAMS} ${HEADER_FILES} ${SOURCE_FILES})
 # add game variables
 target_compile_definitions(
 	${PROJECT_NAME} PRIVATE LAST_COMPILE_TIME=${TODAY} IS_EDITOR=0 IS_DEBUG=${IS_DEBUG}
@@ -48,7 +63,7 @@ target_link_libraries(${PROJECT_NAME} ${LIBS_NAMES})
 project(Editor)
 
 # add editor executable
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${EXE_PARAMS} ${HEADER_FILES} ${SOURCE_FILES})
 # add editor variables
 target_compile_definitions(
 	${PROJECT_NAME} PRIVATE LAST_COMPILE_TIME=${TODAY} IS_EDITOR=1 IS_DEBUG=${IS_DEBUG}

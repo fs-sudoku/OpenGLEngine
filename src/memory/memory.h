@@ -17,7 +17,7 @@ namespace mem
 	template<typename T, typename... Args>
 	inline T* alloc(Args&&... args)
 	{
-		T* result = new T(args...);
+		T* result = new T(std::forward<Args>(args)...);
 		allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
 		return result;
 	}

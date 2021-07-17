@@ -5,6 +5,9 @@
 #include <core\core.h>
 #include <utils\file_io.h>
 #include <utils\utils.h>
+#include <filesystem>
+
+#include <serialization\serialization.h>
 
 using namespace luabridge;
 
@@ -24,28 +27,28 @@ inline std::vector<T> get_list_from_lua(LuaRef& ref)
 	return result;
 }
 
-LuaScript* LuaManager::get_script(cstr path)
+LuaScript* LuaManager::get_script(const cstr& path)
 {
-	for (LuaScript* s : lua_scripts) {
+	for (auto* s : lua_scripts) {
 		if (s->path == path) {
 			return s;
 		}
 	}
 	core->fatal_error(utils::format(
-		"Cannot find script. Path: %s", path.c_str()
+		"Cannot find script. Path: %s", path.data()
 	));
 	return nullptr;
 }
 
 void LuaManager::initiliaze()
 {
-	this->parse_script_folder();
+	this->load_all_scripts();
 	this->compile_all_scripts();
 }
 
 void LuaManager::destroy()
 {
-	for (LuaScript* s : this->lua_scripts) {
+	for (auto* s : this->lua_scripts) {
 		lua_close(s->lua_state);
 		for (std::pair p : s->stack) {
 			mem::free(p.second);
@@ -54,24 +57,23 @@ void LuaManager::destroy()
 	}
 }
 
-void LuaManager::parse_script_folder()
+void LuaManager::load_all_scripts()
 {
-	std::vector<cstr> all_scripts = utils::io::get_files_in_directory(
-		RESOURCE_PATH("scripts/")
-	);
-	for (const cstr p : all_scripts) {
-		core->print(utils::format("Loaded script: %s", p.c_str()));
-
-		LuaScript* script = mem::alloc<LuaScript>();
-		script->path = p.c_str();
-
+	std::vector<cstr> scripts = core->get_main_config()["scripts"];
+	for (auto p : scripts) {
+		auto converted_path = RESOURCE_PATH(p.data());
+		auto script = mem::alloc<LuaScript>(converted_path);
+		
 		this->process_new_script(script);
+		core->print(utils::format(
+			"Loaded script. Path: %s", converted_path.data()
+		));
 	}
 }
 
 void LuaManager::compile_all_scripts()
 {
-	for (LuaScript* s : lua_scripts) {
+	for (auto* s : lua_scripts) {
 		::register_base_functions(s);
 
 		int o_file_result = luaL_loadfile(

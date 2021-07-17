@@ -9,6 +9,8 @@
 class LuaScript
 {
 public:
+	LuaScript(const cstr& path) : path(path) {}
+public:
 	struct lua_State* lua_state = nullptr;
 
 	std::map<cstr, luabridge::LuaRef*> stack;
@@ -42,7 +44,7 @@ public:
 		luabridge::LuaRef func = this->get_func(name);
 		if (!func.isFunction()) {
 			core->fatal_error(utils::format(
-				"Function is not a function. Name: %s", name
+				"Function is not a function. Name: %s", name.data()
 			));
 		}
 		return func(std::forward<Args>(args)...).cast<T>();

@@ -13,13 +13,13 @@ class LuaManager : ICoreModule
 public:
 	std::vector<class LuaScript*> lua_scripts;
 public:
-	class LuaScript* get_script(cstr path);
+	class LuaScript* get_script(const cstr& path);
 protected:
 	friend class Core;
 	void initiliaze() override;
 	void destroy() override;
 private:
-	void parse_script_folder();
+	void load_all_scripts();
 	void compile_all_scripts();
 	void process_new_script(LuaScript* script);
 };

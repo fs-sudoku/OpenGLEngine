@@ -25,7 +25,7 @@ auto get_global_from_lua = [](lua_State* state) -> int {
 			}
 			else {
 				core->fatal_error(utils::format(
-					"Cannot get variable from Lua stack. Name: %s", arg
+					"Cannot get variable from Lua stack. Name: %s", arg.data()
 				));
 			}
 		}
@@ -44,7 +44,6 @@ void register_base_functions(LuaScript* script)
 		gns.beginNamespace("utils")
 			.addCFunction("get_extern", ::get_global_from_lua)
 			.addFunction("read_file", utils::io::read_file)
-			.addFunction("get_files_in_directory", utils::io::get_files_in_directory)
 			.addProperty("src_dir", get_src_dir_prop)
 		.endNamespace()
 		.beginNamespace("render")

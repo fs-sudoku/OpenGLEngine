@@ -5,6 +5,7 @@
 #include <render\shader_processor.h>
 #include <engine\camera.h>
 
+#include <Assimp\Importer.hpp>
 #include <SDL\SDL.h>
 #include <GL\glew.h>
 #include <GLM\ext\matrix_transform.hpp>
@@ -13,7 +14,8 @@ static SDL_GLContext	gl_context_pattern;
 
 void Render::initiliaze()
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != NULL) {
+	// Assimp::Importer::Importer();
+	if (SDL_Init(SDL_INIT_EVERYTHING != NULL)) {
 		core->fatal_error(
 			utils::format("Cannot initiliaze SDL. Log: %s", SDL_GetError())
 		);
@@ -38,7 +40,7 @@ void Render::initiliaze()
 	this->prepare_opengl();
 }
 
-void Render::process_update()
+void Render::process_update() noexcept
 {
 	Shader shader(RESOURCE_PATH("shaders/basic/basic.glsl"));
 	while (is_run)

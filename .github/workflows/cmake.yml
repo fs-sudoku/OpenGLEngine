@@ -13,8 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: configure
-      run: mkdir build && cd build && cmake ..
+      run: mkdir build && cd build && cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_CL_64=1 -Ax64
     - name: build
-      run: cmake --build build --config Release
+      run: cmake --build build --config Release -- /p:Platform=x64
     - name: test
       run: cd build && ctest

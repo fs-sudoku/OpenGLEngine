@@ -16,7 +16,8 @@ void Core::initiliaze()
 		utils::io::read_file(RESOURCE_PATH("config.json"))
 	);
 
-	this->lua_manager = register_core_module<LuaManager>();
+	this->src_manager	= register_core_module<ResourceManager>();
+	this->lua_manager	= register_core_module<LuaManager>();
 	this->lua_manager->initiliaze();
 
 	this->render		= register_core_module<Render>();
@@ -57,27 +58,36 @@ void Core::destroy()
 		m->destroy();
 		mem::free(m);
 	}
-	if (!mem::allocated_memory.empty()) {
-		for (auto p : mem::allocated_memory) {
-			if (p.adress != this) {
-				this->fatal_error(
-					utils::format(
-						"Memory is not deleted! Adress: %p, Typename: %s", p.adress, p.type_name.data()
-					)
-				);
-			}
+	for (auto p : mem::allocated_memory) {
+		if (p.adress != this) {
+			this->fatal_error(
+				utils::format(
+					"Memory is not deleted! Adress: %p, Typename: %s", p.adress, p.type_name.data()
+				)
+			);
 		}
 	}
+	auto allocated_mem		= mem::total_allocated;
+
+	auto allocated_mem_bits = BYTE_TO_BIT	(allocated_mem);
+	auto allocated_mem_kb	= BYTE_TO_KB	(allocated_mem);
+	auto allocated_mem_mb	= BYTE_TO_MB	(allocated_mem);
+
+	this->print(utils::format(
+		"Total allocated memory: %i Bits => %i Bytes => %i KB => %i MB",
+		allocated_mem_bits, allocated_mem, allocated_mem_kb, allocated_mem_mb),
+		LogType::Warning
+	);
 }
 
-void Core::print(const cstr& message)
+void Core::print(const cstr& message, LogType type)
 {
-	utils::print_at_console(message);
+	utils::print_at_console(message, type);
 }
 
 void Core::fatal_error(const cstr& message)
 {
-	print(utils::format("Fatal error! Message: %s", message.data()));
+	print(utils::format("Fatal error! Message: %s", message.data()), LogType::Error);
 	SDL_ShowSimpleMessageBox(
 		SDL_MESSAGEBOX_ERROR, "Fatal error corrupted", message.data(), nullptr
 	);

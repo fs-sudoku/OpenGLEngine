@@ -5,6 +5,6 @@ class ResourceManager : ICoreModule
 {
 private:
 	friend class Core;
-	void initiliaze() override;
-	void destroy() override;
+	void initiliaze()	override;
+	void destroy()		override;
 };

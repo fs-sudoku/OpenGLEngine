@@ -66,8 +66,8 @@ void LuaManager::load_all_scripts()
 		
 		this->process_new_script(script);
 		core->print(utils::format(
-			"Loaded script. Path: %s", converted_path.data()
-		));
+			"Loaded script. Path: %s", converted_path.data()), LogType::Sucess
+		);
 	}
 }
 

@@ -18,6 +18,14 @@
 
 #define REGISTER_READ_ONLY_PROPERTY(TYPE, NAME)	TYPE get_##NAME()		{ return NAME;  } \
 
+enum class LogType
+{
+	Info	= 1u,
+	Warning = 2u,
+	Error	= 3u,
+	Sucess	= 4u
+};
+
 namespace utils
 {
 	template<typename... Args>
@@ -29,5 +37,5 @@ namespace utils
 		std::snprintf(buf.get(), size, format.c_str(), args...);
 		return cstr(buf.get(), buf.get() + size - 1);
 	}
-	extern void print_at_console(const cstr& message);
+	extern void print_at_console(const cstr& message, LogType type = LogType::Info);
 }

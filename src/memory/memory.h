@@ -2,6 +2,10 @@
 #include <utils\utils.h>
 #include <malloc.h>
 
+#define BYTE_TO_BIT(x)	(x * 8u)
+#define BYTE_TO_KB(x)	(x / 1024u)
+#define BYTE_TO_MB(x)	((x / 1024u) / 1024u)
+
 namespace mem
 {
 	struct MemoryData
@@ -13,12 +17,15 @@ namespace mem
 			return this->adress == adress;
 		}
 	};
+	extern uint total_allocated;
 	extern std::vector<MemoryData> allocated_memory;
+
 	template<typename T, typename... Args>
 	inline T* alloc(Args&&... args)
 	{
 		T* result = new T(std::forward<Args>(args)...);
-		allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
+		mem::total_allocated += sizeof(T);
+		mem::allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
 		return result;
 	}
 	template<typename T>
@@ -26,14 +33,14 @@ namespace mem
 	{
 		T* result = new T[size];
 		if (add_to_stack) {
-			allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
+			mem::allocated_memory.push_back({ typeid(T).name(), static_cast<void*>(result) });
 		}
 		return result;
 	}
 	template<typename T>
 	inline void free(T* target) noexcept
 	{
-		allocated_memory.erase(std::remove(
+		mem::allocated_memory.erase(std::remove(
 			allocated_memory.begin(), allocated_memory.end(),
 			static_cast<void*>(target)), allocated_memory.end()
 		);

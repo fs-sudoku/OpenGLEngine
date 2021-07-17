@@ -20,7 +20,7 @@ public:
 	class Manager* manager				= nullptr;
 	class ResourceManager* src_manager	= nullptr;
 public:
-	static void print(const cstr& message);
+	static void print(const cstr& message, LogType type = LogType::Info);
 	static void fatal_error(const cstr& message);
 public:
 	REGISTER_READ_ONLY_PROPERTY(Json, main_config);
@@ -41,7 +41,7 @@ private:
 	std::thread start_up_thread;
 private:
 	template<typename T = ICoreModule>
-	inline T* register_core_module() {
+	_NODISCARD T* register_core_module() {
 		static_assert(std::is_base_of<ICoreModule, T>::value, "T is not ICoreModule");
 
 		T* result = mem::alloc<T>();

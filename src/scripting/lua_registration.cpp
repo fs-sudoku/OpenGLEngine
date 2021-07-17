@@ -16,7 +16,7 @@ auto get_src_dir_prop = [](lua_State* s) -> int {
 };
 
 auto get_global_from_lua = [](lua_State* state) -> int {
-	for (LuaScript* s : core->lua_manager->lua_scripts) {
+	for (LuaScript* s : core->lua_manager->get_lua_scripts()) {
 		if (s->lua_state == state) {
 			cstr arg = lua_tostring(state, 1);
 			if (s->stack.find(arg) != s->stack.end()) {

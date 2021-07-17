@@ -3,14 +3,7 @@
 #include <core\core.h>
 #include <scripting\lua_manager.h>
 
-IScriptableObject::IScriptableObject(const cstr& script_name)
+IScriptableObject::IScriptableObject(const cstr& script_name) : script_path(script_name)
 {
-	cstr c_script_name = RESOURCE_PATH(script_name.data());
-	this->script = core->lua_manager->get_script(c_script_name);
-
-	if (this->script == nullptr) {
-		core->fatal_error(utils::format(
-			"Script is null. Path: %s", c_script_name.data()
-		));
-	}
+	core->lua_manager->get_script_objects().push_back(this);
 }

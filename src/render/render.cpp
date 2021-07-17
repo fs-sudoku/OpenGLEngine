@@ -36,7 +36,6 @@ void Render::initiliaze()
 			utils::format("Cannot initiliaze OpenGL. Log: %s", glewGetErrorString(gerr))
 		);
 	}
-	this->shader_proc	= mem::alloc<ShaderProcessor>();
 	this->prepare_opengl();
 }
 
@@ -80,8 +79,6 @@ void Render::process_update() noexcept
 
 void Render::destroy()
 {
-	mem::free(shader_proc);
-
 	SDL_DestroyWindow(this->window_pattern);
 	SDL_DestroyRenderer(this->render_pattern);
 	SDL_GL_DeleteContext(::gl_context_pattern);
@@ -91,7 +88,7 @@ void Render::destroy()
 
 void Render::for_each_shaders()
 {
-	for (auto* s : this->shader_proc->shaders) {
+	for (auto* s : core->shader_proc->shaders) {
 		s->set_base_uniforms(&world_matrix, ticks);
 	}
 }

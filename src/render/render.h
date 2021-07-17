@@ -9,8 +9,6 @@ struct	SDL_Renderer;
 class Render : ICoreModule
 {
 public:
-	class ShaderProcessor*	shader_proc = nullptr;
-public:
 	REGISTER_PROPERTY(class Camera*, camera);
 private:
 	friend class Core;

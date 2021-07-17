@@ -1,9 +1,7 @@
 #include <render\shader_processor.h>
 
 ShaderProcessor::ShaderProcessor() : IScriptableObject("scripts/shader_processor.lua")
-{ 
-	script->call_init();
-}
+{ }
 
 std::tuple<cstr, cstr> ShaderProcessor::get_completed_shader(const cstr& path)
 {
@@ -20,4 +18,9 @@ std::vector<uint> ShaderProcessor::get_base_locations(uint id)
 		result.push_back(lua_ref[i + 1].cast<uint>());
 	}
 	return result;
+}
+
+void ShaderProcessor::initiliaze()
+{
+	script->call_init();
 }

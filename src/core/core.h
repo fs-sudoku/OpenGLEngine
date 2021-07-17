@@ -18,6 +18,7 @@ public:
 	class Render* render				= nullptr;
 	class LuaManager* lua_manager		= nullptr;
 	class Manager* manager				= nullptr;
+	class ShaderProcessor* shader_proc	= nullptr;
 	class ResourceManager* src_manager	= nullptr;
 public:
 	static void print(const cstr& message, LogType type = LogType::Info);

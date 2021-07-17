@@ -28,9 +28,9 @@ void Shader::check_gl_errors(const uint& id) const
 
 Shader::Shader(const cstr& path) 
 {
-    core->render->shader_proc->shaders.push_back(this);
+    core->shader_proc->shaders.push_back(this);
 
-    auto tuple = core->render->shader_proc->get_completed_shader(path);
+    auto tuple = core->shader_proc->get_completed_shader(path);
     cstr v_shader_ptr = std::get<0u>(tuple);
     cstr f_shader_ptr = std::get<1u>(tuple);
 
@@ -56,7 +56,7 @@ Shader::Shader(const cstr& path)
     glAttachShader(id, fragment);
     glLinkProgram(id);
     this->check_gl_errors(id);
-    this->base_locations = core->render->shader_proc->get_base_locations(id);
+    this->base_locations = core->shader_proc->get_base_locations(id);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);

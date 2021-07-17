@@ -10,8 +10,12 @@ extern void register_base_functions(class LuaScript* script);
 
 class LuaManager : ICoreModule
 {
-public:
+private:
 	std::vector<class LuaScript*> lua_scripts;
+	std::vector<class IScriptableObject*> script_objects;
+public:
+	REGISTER_READ_ONLY_PROPERTY(auto&, lua_scripts);
+	REGISTER_READ_ONLY_PROPERTY(auto&, script_objects);
 public:
 	class LuaScript* get_script(const cstr& path);
 protected:
@@ -21,5 +25,6 @@ protected:
 private:
 	void load_all_scripts();
 	void compile_all_scripts();
+	void apply_all_script_objects();
 	void process_new_script(LuaScript* script);
 };

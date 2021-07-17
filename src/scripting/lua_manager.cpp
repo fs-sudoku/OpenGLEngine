@@ -44,6 +44,7 @@ void LuaManager::initiliaze()
 {
 	this->load_all_scripts();
 	this->compile_all_scripts();
+	this->apply_all_script_objects();
 }
 
 void LuaManager::destroy()
@@ -95,6 +96,20 @@ void LuaManager::compile_all_scripts()
 			lua_pop(s->lua_state, 1);
 		}
 		s->compile_success();
+	}
+}
+
+void LuaManager::apply_all_script_objects()
+{
+	for (auto* s : script_objects) {
+		cstr converted_path = RESOURCE_PATH(s->script_path.data());
+		s->script = this->get_script(converted_path);
+
+		if (s->script == nullptr) {
+			core->fatal_error(utils::format(
+				"Script is null! Path: %s", converted_path.data()
+			));
+		}
 	}
 }
 

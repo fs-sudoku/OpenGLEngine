@@ -1,7 +1,8 @@
 #pragma once
+#include <core\core_module.h>
 #include <scripting\scriptable_object.h>
 
-class ShaderProcessor : IScriptableObject
+class ShaderProcessor : ICoreModule, IScriptableObject
 {
 public:
 	ShaderProcessor();
@@ -10,5 +11,8 @@ public:
 private:
 	friend class Shader;
 	friend class Render;
+	friend class Core;
+private:
+	void initiliaze() override;
 	std::vector<class Shader*> shaders;
 };

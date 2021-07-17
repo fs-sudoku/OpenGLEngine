@@ -7,6 +7,7 @@
 #include <serialization\serialization.h>
 #include <utils\file_io.h>
 #include <engine\resource_manager.h>
+#include <render\shader_processor.h>
 
 #include <SDL\SDL_messagebox.h>
 
@@ -16,17 +17,19 @@ void Core::initiliaze()
 		utils::io::read_file(RESOURCE_PATH("config.json"))
 	);
 
-	this->src_manager	= register_core_module<ResourceManager>();
 	this->lua_manager	= register_core_module<LuaManager>();
-	this->lua_manager->initiliaze();
+	this->src_manager	= register_core_module<ResourceManager>();
+
+	for (auto p : src_manager->convert_config_path(RESOURCE_PATH("scripts/*.lua"))) {
+		print(p);
+	}
 
 	this->render		= register_core_module<Render>();
+	this->shader_proc	= register_core_module<ShaderProcessor>();
 	this->manager		= register_core_module<Manager>();
 
 	for (auto* m : core_modules) {
-		if (m != lua_manager) {
-			m->initiliaze();
-		}
+		m->initiliaze();
 	}
 }
 

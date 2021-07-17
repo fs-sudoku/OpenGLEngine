@@ -8,7 +8,7 @@ class ICoreModule : IObject
 {
 protected:	
 	friend class Core;
-	virtual void initiliaze()		{ return; }
-	virtual void process_update()	{ return; }
-	virtual void destroy()			{ mem::free(this); }
+	virtual void initiliaze() {};
+	virtual void process_update() {};
+	virtual void destroy() {};
 };

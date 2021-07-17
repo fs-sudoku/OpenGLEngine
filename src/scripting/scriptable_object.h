@@ -8,5 +8,6 @@ public:
 	IScriptableObject(const cstr& script_name);
 protected:
 	friend class LuaManager;
-	LuaScript* script;
+	LuaScript* script = nullptr;
+	cstr script_path;
 };

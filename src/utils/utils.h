@@ -11,6 +11,8 @@
 #include <base_types\base_types.h>
 
 #define RESOURCE_PATH(PATH) utils::format("%s%s", "../gamedata/", PATH)
+#define MOD_PATH(PATH)		utils::format("%s%s", "../mods/", PATH)
+
 #define NAMEOF(VAR)			#VAR
 
 #define REGISTER_PROPERTY(TYPE, NAME)	TYPE  get_##NAME()				{ return NAME;  } \
@@ -37,5 +39,6 @@ namespace utils
 		std::snprintf(buf.get(), size, format.c_str(), args...);
 		return cstr(buf.get(), buf.get() + size - 1);
 	}
-	extern void print_at_console(const cstr& message, LogType type = LogType::Info);
+	extern void print_at_console(const cstr& message, const LogType type = LogType::Info);
+	extern bool find_in_string(const cstr& str, const cstr& find_element);
 }

@@ -26,7 +26,9 @@ set(SOURCE_FILES
 "src/math/transform.h" 
 "src/render/world_matrix.cpp" 
 "src/engine/game_object.h" 
-"src/scripting/lua_registration.cpp"   "src/engine/resource_manager.h" "src/engine/resource_manager.cpp")
+"src/scripting/lua_registration.cpp" 
+"src/engine/resource_manager.h" 
+"src/engine/resource_manager.cpp" "src/gameplay/actor.cpp" "src/gameplay/actor.h")
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)

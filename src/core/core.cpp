@@ -19,11 +19,6 @@ void Core::initiliaze()
 
 	this->lua_manager	= register_core_module<LuaManager>();
 	this->src_manager	= register_core_module<ResourceManager>();
-
-	for (auto p : src_manager->convert_config_path(RESOURCE_PATH("scripts/*.lua"))) {
-		print(p);
-	}
-
 	this->render		= register_core_module<Render>();
 	this->shader_proc	= register_core_module<ShaderProcessor>();
 	this->manager		= register_core_module<Manager>();
@@ -71,7 +66,7 @@ void Core::destroy()
 		}
 	}
 	auto allocated_mem		= mem::total_allocated;
-
+	
 	auto allocated_mem_bits = BYTE_TO_BIT	(allocated_mem);
 	auto allocated_mem_kb	= BYTE_TO_KB	(allocated_mem);
 	auto allocated_mem_mb	= BYTE_TO_MB	(allocated_mem);
@@ -94,4 +89,5 @@ void Core::fatal_error(const cstr& message)
 	SDL_ShowSimpleMessageBox(
 		SDL_MESSAGEBOX_ERROR, "Fatal error corrupted", message.data(), nullptr
 	);
+	exit(EXIT_FAILURE);
 }

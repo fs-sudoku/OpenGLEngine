@@ -3,3 +3,6 @@
 // Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
 #define REGISTER_PROPERTY
 #define REGISTER_READ_ONLY_PROPERTY
+
+#define RESOURCE_PATH
+#define MOD_PATH

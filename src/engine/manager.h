@@ -4,15 +4,19 @@
 
 #include "updatable_object.h"
 
-class Manager : ICoreModule, IScriptableObject
+class Manager : ICoreModule
 {
 public:
 	Manager();
 public:
-	std::vector<IUpdatableObject*> updatable_objects;
+	REGISTER_READ_ONLY_PROPERTY(auto&, updatable_objects);
+	REGISTER_PROPERTY(class Actor*, actor);
 protected:
 	friend class Core;
 	void initiliaze() override;
 	void process_update() override;
 	void destroy() override;
+private:
+	std::vector<IUpdatableObject*> updatable_objects;
+	class Actor* actor;
 };

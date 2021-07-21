@@ -4,7 +4,7 @@
 
 #include <GLM\mat4x4.hpp>
 
-class Camera : public GameObject, IScriptableObject
+class Camera : public GameObject
 {
 public:
 	Camera();

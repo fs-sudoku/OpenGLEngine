@@ -7,6 +7,7 @@ local pragma_signature		 	= "#pragma"
 
 local custom_frag_code_str	 	= pragma_signature.." ".."CUSTOM_FRAGMENT_CODE"
 local custom_vertex_code_str 	= pragma_signature.." ".."CUSTOM_VERTEX_CODE"
+local custom_frag_vars			= pragma_signature.." ".."CUSTOM_FRAGMENT_UNIFORMS"
 local custom_uniforms_code_str 	= pragma_signature.." ".."CUSTOM_UNIFORMS"
 
 function init()
@@ -57,8 +58,6 @@ function process_shader(path)
 
 	local frag_void_len 	= frag_void:len()
 	local vertex_void_len 	= frag_void:len()
-
-
 
 	---@return string
 	function get_fragment_void_code()

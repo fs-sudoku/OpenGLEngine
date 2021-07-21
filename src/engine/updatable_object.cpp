@@ -5,14 +5,11 @@
 
 IUpdatableObject::IUpdatableObject()
 {
-	core->manager->updatable_objects.push_back(this);
+	core->manager->get_updatable_objects().push_back(this);
 }
 
 IUpdatableObject::~IUpdatableObject()
 {
-	auto iterator = std::remove(
-		core->manager->updatable_objects.begin(),
-		core->manager->updatable_objects.end(),
-		this
-	);
+	auto upd_objects_ref = core->manager->get_updatable_objects();
+	auto iterator = std::remove(upd_objects_ref.begin(), upd_objects_ref.end(), this);
 }

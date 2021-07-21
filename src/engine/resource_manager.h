@@ -3,7 +3,7 @@
 #include <base_types\base_types.h>
 #include <scripting\scriptable_object.h>
 
-class ResourceManager : ICoreModule, IScriptableObject
+class ResourceManager : ICoreModule
 {
 public:
 	ResourceManager();

@@ -5,6 +5,7 @@
 #include <core\core.h>
 #include <utils\file_io.h>
 #include <utils\utils.h>
+#include <engine\resource_manager.h>
 #include <filesystem>
 
 #include <serialization\serialization.h>
@@ -50,10 +51,6 @@ void LuaManager::initiliaze()
 void LuaManager::destroy()
 {
 	for (auto* s : this->lua_scripts) {
-		lua_close(s->lua_state);
-		for (std::pair p : s->stack) {
-			mem::free(p.second);
-		}
 		mem::free(s);
 	}
 }
@@ -62,13 +59,14 @@ void LuaManager::load_all_scripts()
 {
 	std::vector<cstr> scripts = core->get_main_config()["scripts"];
 	for (auto p : scripts) {
-		auto converted_path = RESOURCE_PATH(p.data());
-		auto script = mem::alloc<LuaScript>(converted_path);
-		
-		this->process_new_script(script);
-		core->print(utils::format(
-			"Loaded script. Path: %s", converted_path.data()), LogType::Sucess
-		);
+		for (auto c : core->src_manager->convert_config_path(p)) {
+			auto script = mem::alloc<LuaScript>(c);
+
+			this->process_new_script(script);
+			core->print(utils::format(
+				"Loaded script. Path: %s", c.data()), LogType::Sucess
+			);
+		}
 	}
 }
 

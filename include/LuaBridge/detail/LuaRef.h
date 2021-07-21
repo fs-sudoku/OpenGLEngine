@@ -875,7 +875,7 @@ public:
               caller to ensure that the thread still exists when the LuaRef
               is destroyed.
     */
-    ~LuaRef() { luaL_unref(m_L, LUA_REGISTRYINDEX, m_ref); }
+    // ~LuaRef() { if (m_L != nullptr && m_ref != 0) luaL_unref(m_L, LUA_REGISTRYINDEX, m_ref); }
 
     //----------------------------------------------------------------------------
     /**

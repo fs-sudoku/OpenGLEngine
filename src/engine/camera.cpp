@@ -1,6 +1,6 @@
 #include "camera.h"
 
-Camera::Camera() : IScriptableObject("scripts/camera.lua")
+Camera::Camera()
 {
 
 }

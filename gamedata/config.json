@@ -1,0 +1,8 @@
+{
+    "scripts": [
+        "scripts/*.lua"
+    ],
+    "shaders": [
+        "shaders/basic/basic.glsl"
+    ]
+}

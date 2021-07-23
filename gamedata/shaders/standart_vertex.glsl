@@ -1,5 +1,6 @@
 #version 410
 layout (location = 0) in vec3 SELF_POSITION;
+layout (location = 1) in vec3 NORMAL;
 
 #pragma CUSTOM_UNIFORMS
 
@@ -9,11 +10,7 @@ uniform mat4 PROJECTION;
 
 uniform int TIME;
 
-// consts
-vec4 POSITION;
-
 void main()
 {
     #pragma CUSTOM_VERTEX_CODE
-    gl_Position = POSITION;
 }

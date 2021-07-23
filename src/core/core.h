@@ -17,6 +17,7 @@ class Core : ICoreModule
 public:
 	class Render* render				= nullptr;
 	class LuaManager* lua_manager		= nullptr;
+	class Input* input					= nullptr;
 	class Manager* manager				= nullptr;
 	class ShaderProcessor* shader_proc	= nullptr;
 	class ResourceManager* src_manager	= nullptr;
@@ -24,6 +25,7 @@ public:
 	static void print(const cstr& message, LogType type = LogType::Info);
 	static void fatal_error(const cstr& message);
 public:
+	REGISTER_READ_ONLY_PROPERTY(double, delta_time);
 	REGISTER_READ_ONLY_PROPERTY(Json, main_config);
 protected:
 	friend class Render;
@@ -36,10 +38,10 @@ private:
 	void start_update_in_render();
 	void register_std_exception(const std::exception& excp);
 private:
-	Json main_config;
+	Json main_config = Json();
+	double delta_time = 0.0;
 private:
 	std::vector<ICoreModule*> core_modules;
-	std::thread start_up_thread;
 private:
 	template<typename T = ICoreModule>
 	_NODISCARD T* register_core_module() {

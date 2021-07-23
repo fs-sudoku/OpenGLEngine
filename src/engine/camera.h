@@ -11,6 +11,8 @@ public:
 	void update() override;
 public:
 	REGISTER_PROPERTY(float, fov);
+	REGISTER_PROPERTY(float, sensity);
 private:
 	float fov = 45.0f;
+	float sensity = 0.2f;
 };

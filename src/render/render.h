@@ -10,6 +10,11 @@ class Render : ICoreModule
 {
 public:
 	REGISTER_PROPERTY(class Camera*, camera);
+	REGISTER_READ_ONLY_PROPERTY(auto*, window_pattern);
+	REGISTER_READ_ONLY_PROPERTY(auto*, render_pattern);
+	REGISTER_READ_ONLY_PROPERTY(auto, center);
+	REGISTER_READ_ONLY_PROPERTY(auto, aspect);
+	REGISTER_READ_ONLY_PROPERTY(auto, size);
 private:
 	friend class Core;
 private:

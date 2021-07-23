@@ -1,15 +1,10 @@
 #version 410
 out vec4 FragColor;
-
-uniform int TIME;
+in vec3 NORMAL;
 
 #pragma CUSTOM_FRAGMENT_VARS
-
-// consts
-vec4 COLOR;
 
 void main()
 {
     #pragma CUSTOM_FRAGMENT_CODE
-    FragColor = COLOR;
 }

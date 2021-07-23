@@ -8,8 +8,12 @@ Manager::Manager() { }
 
 void Manager::initiliaze()
 {
-	core->render->set_camera(mem::alloc<Camera>());
-	core->render->get_camera()->transform.position = vec3(0, 0, -7);
+	auto* camera = mem::alloc<Camera>();
+
+	core->render->set_camera(camera);
+	camera->transform.get_position() = vec3(0, 0, -7);
+
+	this->actor = mem::alloc<Actor>(camera);
 }
 
 void Manager::process_update()

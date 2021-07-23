@@ -20,15 +20,14 @@ set(SOURCE_FILES
 "src/scripting/scriptable_object.cpp"
 "src/utils/file_io.cpp"
 "src/utils/utils.cpp"
-"src/render/shader_processor.h" 
 "src/render/shader_processor.cpp" 
-"src/render/world_matrix.h" 
-"src/math/transform.h" 
 "src/render/world_matrix.cpp" 
-"src/engine/game_object.h" 
 "src/scripting/lua_registration.cpp" 
-"src/engine/resource_manager.h" 
-"src/engine/resource_manager.cpp" "src/gameplay/actor.cpp" "src/gameplay/actor.h")
+"src/engine/resource_manager.cpp"
+"src/gameplay/actor.cpp" 
+"src/engine/input.cpp" 
+ 
+"src/render/mesh.cpp" "src/math/transform.cpp")
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)
@@ -38,12 +37,14 @@ set(INCLUDE_PATH ${CMAKE_SOURCE_DIR}/include)
 set(LIBS_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 set(LIBS_NAMES 
-SDL/SDL2 GL/glew32 GL/glut32 
-Lua/lua54 Assimp/assimp-vc142-mtd
-opengl32 glu32)
+SDL/SDL2 
+GL/glew32 
+GL/glut32 
+Lua/lua54 
+opengl32 
+glu32)
 
 # if windows => compile with flag win32
-
 if (WIN32 AND NOT ${IS_DEBUG})
 	list(APPEND EXE_PARAMS WIN32)	
 endif()

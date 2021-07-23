@@ -5,6 +5,7 @@
 #include <GLM\vec2.hpp>
 
 typedef unsigned int		uint;
+typedef unsigned short		ushort;
 typedef unsigned char		ubyte;
 
 typedef glm::vec3			vec3;

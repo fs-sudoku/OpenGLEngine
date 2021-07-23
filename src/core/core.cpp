@@ -8,6 +8,7 @@
 #include <utils\file_io.h>
 #include <engine\resource_manager.h>
 #include <render\shader_processor.h>
+#include <engine\input.h>
 
 #include <SDL\SDL_messagebox.h>
 
@@ -20,6 +21,7 @@ void Core::initiliaze()
 	this->lua_manager	= register_core_module<LuaManager>();
 	this->src_manager	= register_core_module<ResourceManager>();
 	this->render		= register_core_module<Render>();
+	this->input			= register_core_module<Input>();
 	this->shader_proc	= register_core_module<ShaderProcessor>();
 	this->manager		= register_core_module<Manager>();
 

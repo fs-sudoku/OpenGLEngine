@@ -732,7 +732,7 @@ extern DECLSPEC int SDLCALL SDL_WaitEventTimeout(SDL_Event * event,
  */
 extern DECLSPEC int SDLCALL SDL_PushEvent(SDL_Event * event);
 
-typedef int (SDLCALL * SDL_EventFilter) (void *userdata, SDL_Event * event);
+typedef int (SDLCALL * SDL_EventFilter) (void *, SDL_Event *);
 
 /**
  *  Sets up a filter to process all events before they change internal state and

@@ -15,10 +15,13 @@
 
 #define NAMEOF(VAR)			#VAR
 
-#define REGISTER_PROPERTY(TYPE, NAME)	TYPE  get_##NAME()				{ return NAME;  } \
-										void  set_##NAME(TYPE value)	{ NAME = value; }
+#define VEC2_TO_STR(VEC)	(utils::format("X: %f, Y: %f", VEC.x, VEC.y))
+#define VEC3_TO_STR(VEC)	(utils::format("X: %f, Y: %f Z: %f", VEC.x, VEC.y, VEC.z))
 
-#define REGISTER_READ_ONLY_PROPERTY(TYPE, NAME)	TYPE get_##NAME()		{ return NAME;  } \
+#define REGISTER_PROPERTY(TYPE, NAME)	inline TYPE  get_##NAME()				{ return NAME;  } \
+										inline void  set_##NAME(TYPE value)	{ NAME = value; }
+
+#define REGISTER_READ_ONLY_PROPERTY(TYPE, NAME)	inline TYPE get_##NAME()		{ return NAME;  } \
 
 enum class LogType
 {

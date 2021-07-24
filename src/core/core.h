@@ -19,11 +19,21 @@ public:
 	class LuaManager* lua_manager		= nullptr;
 	class Input* input					= nullptr;
 	class Manager* manager				= nullptr;
+	class ConfigManager* cfg_manager	= nullptr;
 	class ShaderProcessor* shader_proc	= nullptr;
 	class ResourceManager* src_manager	= nullptr;
 public:
 	static void print(const cstr& message, LogType type = LogType::Info);
 	static void fatal_error(const cstr& message);
+public:
+	template<typename... Args>
+	inline void printf(const cstr& message, LogType type, Args&&... args) {
+		print(utils::format(message, std::forward<Args>(args)...), type);
+	}
+	template<typename... Args>
+	inline void printf(const cstr& message, Args&&... args) {
+		print(utils::format(message, std::forward<Args>(args)...), LogType::Info);
+	}
 public:
 	REGISTER_READ_ONLY_PROPERTY(double, delta_time);
 	REGISTER_READ_ONLY_PROPERTY(Json, main_config);

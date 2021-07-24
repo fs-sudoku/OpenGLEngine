@@ -21,23 +21,15 @@ cstr utils::io::read_file(const cstr& path)
 std::vector<cstr> utils::io::get_files_in_directory(const cstr& dir) {
 	using namespace std::filesystem;
 	static std::vector<cstr> result;
-
-	std::function<void(const cstr&)> parse_dir;
-	parse_dir = [&parse_dir](const cstr& dir) {
-		try {
-			for (auto& p : recursive_directory_iterator(dir)) {
-				auto full_path = p.path().string();
-				if (p.is_directory()) {
-					parse_dir(full_path.data());
-					continue;
-				}
-				result.push_back(full_path);
-			}
+	try 
+	{
+		for (auto& p : recursive_directory_iterator(dir)) {
+			auto full_path = p.path().string();
+			result.push_back(full_path);
 		}
-		catch (const std::filesystem::filesystem_error& excp) {
-			core->fatal_error(excp.what());
-		}
-	};
-	parse_dir(dir);
+	}
+	catch (const std::filesystem::filesystem_error& excp) {
+		core->fatal_error(excp.what());
+	}
 	return result;
 }

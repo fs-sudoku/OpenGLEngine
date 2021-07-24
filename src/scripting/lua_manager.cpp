@@ -1,6 +1,6 @@
 #include "lua_script_data.h"
 #include "lua_manager.h"
-#include "scriptable_object.h"
+#include "scriptable_module.h"
 
 #include <core\core.h>
 #include <utils\file_io.h>
@@ -58,14 +58,12 @@ void LuaManager::destroy()
 void LuaManager::load_all_scripts()
 {
 	std::vector<cstr> scripts = core->get_main_config()["scripts"];
-	for (auto p : scripts) {
-		for (auto c : core->src_manager->convert_config_path(p)) {
+	for (const auto& p : scripts) {
+		for (const auto& c : core->src_manager->convert_config_path(p)) {
 			auto script = mem::alloc<LuaScript>(c);
 
 			this->process_new_script(script);
-			core->print(utils::format(
-				"Loaded script. Path: %s", c.data()), LogType::Sucess
-			);
+			core->printf("Loaded script. Path: %s", LogType::Sucess, c.data());
 		}
 	}
 }

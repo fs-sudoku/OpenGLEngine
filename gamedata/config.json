@@ -1,6 +1,9 @@
 {
+    "configs": [
+        "configs/user_config.json"
+    ],
     "scripts": [
-        "scripts/*.lua"
+        "scripts/shader_processor.lua"
     ],
     "shaders": [
         "shaders/basic/basic.glsl"

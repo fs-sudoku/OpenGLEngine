@@ -1,0 +1,11 @@
+{
+    "gameplay": {
+        "sensity":  0.5,
+        "fovy":     60.0
+    },
+    "window": {
+        "size-x":   1366,
+        "size-y":   728,
+        "fps-max":  60
+    }
+}

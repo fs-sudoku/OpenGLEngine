@@ -1,6 +1,6 @@
 #pragma once
 #include <core\core.h>
-#include <scripting\scriptable_object.h>
+#include <scripting\scriptable_module.h>
 
 #include "updatable_object.h"
 
@@ -18,5 +18,6 @@ protected:
 	void destroy() override;
 private:
 	std::vector<IUpdatableObject*> updatable_objects;
-	class Actor* actor;
+	class Actor* actor = nullptr;
+	class Camera* camera = nullptr;
 };

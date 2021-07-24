@@ -5,6 +5,7 @@
 #include <render\world_matrix.h>
 #include <core\core.h>
 #include <utils\file_io.h>
+#include <engine\camera.h>
 
 #include <GL\glew.h>
 #include <GLM\gtc\type_ptr.hpp>
@@ -13,6 +14,7 @@
 #define VIEW_LOCATION           1u
 #define PROJECTION_LOCATION     2u
 #define TIME_LOCATION           3u
+#define CAM_LOCATION            4u
 
 void Shader::check_gl_errors(const uint& id) const
 {
@@ -37,9 +39,9 @@ Shader::Shader(const cstr& path)
     const char* vShaderCode = v_shader_ptr.c_str();
     const char* fShaderCode = f_shader_ptr.c_str();
 
-    uint vertex, fragment;
-    int success;
-    char info_log[512];
+    uint vertex = 0u, fragment = 0u;
+    int success = 0;
+    char info_log[512] = {};
 
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderCode, NULL);
@@ -109,6 +111,11 @@ void Shader::auto_set_matrix(uint location, const glm::mat4& mat)
     );
 }
 
+void Shader::auto_set_vec3(uint location, const vec3& vec)
+{
+    glUniform3d(location, UNPACK_VEC3(vec));
+}
+
 void Shader::auto_set_uint(uint location, uint value)
 {
     glUniform1ui(
@@ -121,6 +128,6 @@ void Shader::set_base_uniforms(const WorldMatrix* world_matrix, float ticks)
     auto_set_matrix(base_locations[MODEL_LOCATION],         world_matrix->model);
     auto_set_matrix(base_locations[VIEW_LOCATION],          world_matrix->view);
     auto_set_matrix(base_locations[PROJECTION_LOCATION],    world_matrix->projection);
-
     auto_set_uint(base_locations[TIME_LOCATION],            ticks);
+    auto_set_vec3(base_locations[CAM_LOCATION],             core->render->get_camera()->transform.get_position());
 }

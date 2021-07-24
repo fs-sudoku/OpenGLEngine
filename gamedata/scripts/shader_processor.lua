@@ -1,4 +1,4 @@
--- manager.lua
+-- shader_manager.lua
 
 ---@type string
 local standard_frag, standard_vertex
@@ -31,12 +31,13 @@ end
 
 ---@param id integer
 function get_base_locations(id)
-	local model_loc 		= render.get_uniform_location(id, "MODEL")
-	local view_loc 			= render.get_uniform_location(id, "VIEW")
-	local projection_loc 	= render.get_uniform_location(id, "PROJECTION")
-	local time_loc 			= render.get_uniform_location(id, "TIME")
-
-	return { model_loc, view_loc, projection_loc, time_loc }
+	local model_loc 		= render.get_uniform_location(id, "Model")
+	local view_loc 			= render.get_uniform_location(id, "View")
+	local projection_loc 	= render.get_uniform_location(id, "Projection")
+	local time_loc 			= render.get_uniform_location(id, "Time")
+	local cam_loc 			= render.get_uniform_location(id, "CamPos")
+	
+	return { model_loc, view_loc, projection_loc, time_loc, cam_loc }
 end
 
 ---@param path string

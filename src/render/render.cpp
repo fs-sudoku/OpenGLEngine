@@ -11,33 +11,32 @@
 #include <GL\glew.h>
 #include <GLM\ext\matrix_transform.hpp>
 
-constexpr double ticks_for_next_frame = (1000.0 / 60.0);
-
 static SDL_GLContext	gl_context_pattern;
+
+Render::Render() : ISerializableObject("configs/user_config.json") { }
 
 void Render::initiliaze()
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING != NULL)) {
-		core->fatal_error(
-			utils::format("Cannot initiliaze SDL. Log: %s", SDL_GetError())
-		);
-	}
-	int serr = SDL_CreateWindowAndRenderer(
-		size.x, size.y, SDL_WINDOW_OPENGL, &window_pattern, &render_pattern
-	);
+	this->load_config();
+
+	const auto& window_node = self_config->at("window");
+
+	vec2 cfg_size = vec2(window_node["size-x"], window_node["size-y"]);
+	this->update_screen_size(cfg_size);
+
+	VERIFY(SDL_Init(SDL_INIT_EVERYTHING) == NULL);
+	VERIFY(SDL_CreateWindowAndRenderer(size.x, size.y, SDL_WINDOW_OPENGL, &window_pattern, &render_pattern) == NULL);
+
+	VERIFY(window_pattern != nullptr);
+	VERIFY(render_pattern != nullptr);
+
 	SDL_SetWindowTitle(this->window_pattern, "Application");
-	if (serr != NULL) {
-		core->fatal_error(
-			utils::format("Cannot create SDL Window. Log: %s", SDL_GetError())
-		);
-	}
+
 	gl_context_pattern = SDL_GL_CreateContext(window_pattern);
 	glewExperimental = GL_TRUE;
-	if (uint gerr = glewInit() != NULL) {
-		core->fatal_error(
-			utils::format("Cannot initiliaze OpenGL. Log: %s", glewGetErrorString(gerr))
-		);
-	}
+
+	VERIFY(glewInit() == GLEW_OK);
+
 	this->prepare_opengl();
 }
 
@@ -45,6 +44,7 @@ void Render::process_update() noexcept
 {
 	Mesh test(RESOURCE_PATH("models/suzanne.obj"));
 	Shader shader(RESOURCE_PATH("shaders/basic/basic.glsl"));
+	shader.set_attached_trans(&test.transform);
 	double old_time = SDL_GetTicks();
 	while (is_run)
 	{
@@ -73,9 +73,6 @@ void Render::process_update() noexcept
 			shader.use();
 			test.draw();
 		}
-
-		shader.use();
-		test.draw();
 		this->flush_render();
 
 		old_time = new_time;
@@ -92,6 +89,15 @@ void Render::destroy()
 	SDL_Quit();
 }
 
+void Render::update_screen_size(vec2 size)
+{
+	this->size		= size;
+	this->center	= vec2(size.x / 2.f, size.y / 2.f);
+	this->aspect	= size.x / size.y;
+
+	glViewport(0, 0, size.x, size.y);
+}
+
 inline void Render::for_each_shaders()
 {
 	for (auto* s : core->shader_proc->shaders) {
@@ -106,7 +112,6 @@ inline void Render::pre_logic()
 
 inline void Render::begin_render()
 {
-	glViewport(0, 0, size.x, size.y);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	world_matrix.create_matrix(&camera->transform, aspect, camera->get_fov());

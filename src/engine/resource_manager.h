@@ -1,7 +1,7 @@
 #pragma once
 #include <core\core_module.h>
 #include <base_types\base_types.h>
-#include <scripting\scriptable_object.h>
+#include <scripting\scriptable_module.h>
 
 class ResourceManager : ICoreModule
 {

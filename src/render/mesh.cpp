@@ -59,8 +59,8 @@ inline void load_obj(const cstr& filename, std::vector<glm::vec4>& vertices, std
 Mesh::Mesh(const cstr& path) : filename(path)
 {
     ::load_obj(path, vertices, normals, elements);
-    core->print(utils::format(
-        "Loaded model. Path: %s", path.data()), LogType::Sucess
+    core->printf(
+        "Loaded model. Path: %s", LogType::Sucess, path.data()
     );
     this->bind();
 }
@@ -76,7 +76,7 @@ Mesh::~Mesh()
     if (ibo_elements != 0) {
         glDeleteBuffers(1, &ibo_elements);
     }
-    core->print(utils::format("Cleared mesh buffers in model: %s", filename.data()), LogType::Sucess);
+    core->printf("Cleared mesh buffers in model: %s", LogType::Sucess, filename.data());
 }
 
 void Mesh::draw()
@@ -84,6 +84,10 @@ void Mesh::draw()
     glBindVertexArray(vbo_vertices);
     glDrawElements(GL_TRIANGLES, elements.size(), GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
+}
+
+void Mesh::update()
+{
 }
 
 void Mesh::bind()
@@ -109,5 +113,5 @@ void Mesh::bind()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
 
-    core->print(utils::format("Binded VBO and EBO in model: %s", filename.data()), LogType::Sucess);
+    core->printf("Binded VBO and EBO in model: %s", LogType::Sucess, filename.data());
 }

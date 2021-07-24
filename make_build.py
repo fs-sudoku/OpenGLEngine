@@ -37,7 +37,7 @@ with open('builds_info.json', 'w') as write_build_config:
 
 build_str = f'build_{"0" if last_build_num < 10 else ""}{last_build_num}'
 
-zip_file = ZipFile(f"{build_dir}/{build_str}.zip", 'w')
+zip_file = ZipFile(f"{build_dir}/{build_str}.build", 'w')
 
 zip_files = []
 

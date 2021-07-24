@@ -12,7 +12,7 @@ class LuaManager : ICoreModule
 {
 private:
 	std::vector<class LuaScript*> lua_scripts;
-	std::vector<class IScriptableObject*> script_objects;
+	std::vector<class IScriptableModule*> script_objects;
 public:
 	REGISTER_READ_ONLY_PROPERTY(auto&, lua_scripts);
 	REGISTER_READ_ONLY_PROPERTY(auto&, script_objects);

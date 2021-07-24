@@ -12,9 +12,9 @@ int main(int argc, char* argv[])
 {
 	core = mem::alloc<Core>();
 
-	core->print(utils::format("Last compile time: %s", LAST_COMPILE_TIME));
-	core->print(utils::format("Executing in %s mode", is_editor ? "editor" : "standart"));
-	core->print(utils::format("Debug mode is %s", is_debug ? "on" : "off"));
+	core->printf("Last compile time: %s", LAST_COMPILE_TIME);
+	core->printf("Executing in %s mode", is_editor ? "editor" : "standart");
+	core->printf("Debug mode is %s", is_debug ? "on" : "off");
 
 	try 
 	{

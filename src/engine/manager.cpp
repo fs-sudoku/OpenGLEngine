@@ -8,10 +8,10 @@ Manager::Manager() { }
 
 void Manager::initiliaze()
 {
-	auto* camera = mem::alloc<Camera>();
+	this->camera = mem::alloc<Camera>();
 
 	core->render->set_camera(camera);
-	camera->transform.get_position() = vec3(0, 0, -7);
+	camera->transform.get_position() = vec3(0, 0, -4);
 
 	this->actor = mem::alloc<Actor>(camera);
 }
@@ -25,9 +25,6 @@ void Manager::process_update()
 
 void Manager::destroy()
 {
-	for (IUpdatableObject* u : updatable_objects) {
-		if (u != nullptr) {
-			mem::free(u);
-		} 
-	}
+	mem::free(actor);
+	mem::free(camera);
 }

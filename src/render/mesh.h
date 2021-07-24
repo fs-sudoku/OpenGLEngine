@@ -1,9 +1,10 @@
 #pragma once
 #include <utils\utils.h>
+#include <engine\game_object.h>
 
 #include <GLM\vec4.hpp>
 
-class Mesh 
+class Mesh : public GameObject
 {
 public:
 	Mesh(const cstr& path);
@@ -25,5 +26,6 @@ private:
 	std::vector<ushort>		elements;
 	uint vbo_vertices = 0, vbo_normals = 0, ibo_elements = 0;
 private:
+	void update();
 	void bind();
 };

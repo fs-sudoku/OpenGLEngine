@@ -9,6 +9,7 @@
 #include <engine\resource_manager.h>
 #include <render\shader_processor.h>
 #include <engine\input.h>
+#include <engine\config_manager.h>
 
 #include <SDL\SDL_messagebox.h>
 
@@ -19,6 +20,7 @@ void Core::initiliaze()
 	);
 
 	this->lua_manager	= register_core_module<LuaManager>();
+	this->cfg_manager	= register_core_module<ConfigManager>();
 	this->src_manager	= register_core_module<ResourceManager>();
 	this->render		= register_core_module<Render>();
 	this->input			= register_core_module<Input>();
@@ -60,11 +62,7 @@ void Core::destroy()
 	}
 	for (auto p : mem::allocated_memory) {
 		if (p.adress != this) {
-			this->fatal_error(
-				utils::format(
-					"Memory is not deleted! Adress: %p, Typename: %s", p.adress, p.type_name.data()
-				)
-			);
+			throw utils::format("Memory is not deleted! Adress: %p, Typename: %s", p.adress, p.type_name.data());
 		}
 	}
 	auto allocated_mem		= mem::total_allocated;
@@ -73,10 +71,10 @@ void Core::destroy()
 	auto allocated_mem_kb	= BYTE_TO_KB	(allocated_mem);
 	auto allocated_mem_mb	= BYTE_TO_MB	(allocated_mem);
 
-	this->print(utils::format(
+	this->printf(
 		"Total allocated memory: %i Bits => %i Bytes => %i KB => %i MB",
-		allocated_mem_bits, allocated_mem, allocated_mem_kb, allocated_mem_mb),
-		LogType::Warning
+		LogType::Warning,
+		allocated_mem_bits, allocated_mem, allocated_mem_kb, allocated_mem_mb
 	);
 }
 
@@ -87,7 +85,7 @@ void Core::print(const cstr& message, LogType type)
 
 void Core::fatal_error(const cstr& message)
 {
-	print(utils::format("Fatal error! Message: %s", message.data()), LogType::Error);
+	core->printf("Fatal error! Message: %s", LogType::Error, message.data());
 	SDL_ShowSimpleMessageBox(
 		SDL_MESSAGEBOX_ERROR, "Fatal error corrupted", message.data(), nullptr
 	);

@@ -1,5 +1,5 @@
 void vertex() {
-    gl_Position = PROJECTION * VIEW * MODEL * vec4(SELF_POSITION, 1.0);
+    gl_Position = Projection * View * Model * vec4(Pos, 1.0);
 }
 
 void fragment() {

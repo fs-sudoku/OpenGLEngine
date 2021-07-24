@@ -19,6 +19,8 @@
 
 */
 
+#if IS_DEBUG
+
 const std::map<const LogType, const char*> log_type_by_color_ptr =
 {
 	{ LogType::Info,		"\033[1m\033[37m"	},
@@ -41,9 +43,15 @@ void utils::print_at_console(const cstr& message, const LogType type)
 	auto type_str	= log_type_by_str.at(type);
 
 	auto result		= printf(
-		"%s[%s] %s %s\n", color_ptr, type_str, message.data(), log_type_by_color_ptr.at(LogType::Info)
+		"%s[%s] %s%s\n", color_ptr, type_str, message.data(), log_type_by_color_ptr.at(LogType::Info)
 	);
 }
+
+#else
+
+inline void utils::print_at_console(const cstr& message, const LogType type) { return; }
+
+#endif
 
 inline bool utils::find_in_string(const cstr& str, const cstr& find_element)
 {

@@ -1,8 +1,9 @@
 #pragma once
 #include <gameplay\actor.h>
 #include <engine\updatable_object.h>
+#include <engine\game_object.h>
 
-class Actor : IUpdatableObject
+class Actor : GameObject
 {
 public:
 	Actor(class Camera* camera);

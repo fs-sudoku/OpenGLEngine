@@ -1,8 +1,9 @@
 #pragma once
 #include <core\core_module.h>
-#include <scripting\scriptable_object.h>
+#include <scripting\scriptable_module.h>
 
-class ShaderProcessor : ICoreModule, IScriptableObject
+
+class ShaderProcessor : ICoreModule, IScriptableModule
 {
 public:
 	ShaderProcessor();

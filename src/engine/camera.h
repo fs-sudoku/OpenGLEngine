@@ -1,10 +1,10 @@
 #pragma once
-#include <scripting\scriptable_object.h>
+#include <scripting\scriptable_module.h>
 #include <engine\game_object.h>
 
 #include <GLM\mat4x4.hpp>
 
-class Camera : public GameObject
+class Camera : public GameObject, ISerializableObject
 {
 public:
 	Camera();
@@ -13,6 +13,6 @@ public:
 	REGISTER_PROPERTY(float, fov);
 	REGISTER_PROPERTY(float, sensity);
 private:
-	float fov = 45.0f;
-	float sensity = 0.2f;
+	float fov = {};
+	float sensity = {};
 };

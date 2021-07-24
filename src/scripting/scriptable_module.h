@@ -2,10 +2,10 @@
 #include <scripting\lua_script_data.h>
 #include <base_types\base_types.h>
 
-class IScriptableObject
+class IScriptableModule
 {
 public:
-	IScriptableObject(const cstr& script_name);
+	IScriptableModule(const cstr& script_name);
 protected:
 	friend class LuaManager;
 	LuaScript* script = nullptr;

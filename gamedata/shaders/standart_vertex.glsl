@@ -1,14 +1,14 @@
 #version 410
-layout (location = 0) in vec3 SELF_POSITION;
-layout (location = 1) in vec3 NORMAL;
+layout (location = 0) in vec3 Pos;
+layout (location = 1) in vec3 Normal;
 
 #pragma CUSTOM_UNIFORMS
 
-uniform mat4 MODEL;
-uniform mat4 VIEW;
-uniform mat4 PROJECTION;
+uniform vec3 CamPos;
 
-uniform int TIME;
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
 
 void main()
 {

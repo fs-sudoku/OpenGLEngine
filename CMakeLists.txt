@@ -17,7 +17,7 @@ set(SOURCE_FILES
 "src/render/render.cpp"
 "src/render/shader.cpp"
 "src/scripting/lua_manager.cpp"
-"src/scripting/scriptable_object.cpp"
+"src/scripting/scriptable_module.cpp"
 "src/utils/file_io.cpp"
 "src/utils/utils.cpp"
 "src/render/shader_processor.cpp" 
@@ -27,7 +27,7 @@ set(SOURCE_FILES
 "src/gameplay/actor.cpp" 
 "src/engine/input.cpp" 
  
-"src/render/mesh.cpp" "src/math/transform.cpp")
+"src/render/mesh.cpp" "src/math/transform.cpp" "src/serialization/serialization.cpp" "src/engine/config_manager.h" "src/engine/config_manager.cpp")
 
 file(GLOB_RECURSE DLL_FILES 
 	${CMAKE_SOURCE_DIR}/dlls/*.dll)

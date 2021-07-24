@@ -1,6 +1,6 @@
 #include <render\shader_processor.h>
 
-ShaderProcessor::ShaderProcessor() : IScriptableObject("scripts/shader_processor.lua")
+ShaderProcessor::ShaderProcessor() : IScriptableModule("scripts/shader_processor.lua")
 { }
 
 std::tuple<cstr, cstr> ShaderProcessor::get_completed_shader(const cstr& path)
